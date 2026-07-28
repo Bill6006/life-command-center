@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "privacy:scan": "node scripts/privacy-scan.mjs",
+    "contracts:verify": "node scripts/verify-phase1.mjs",
+    "ci": "npm run privacy:scan && npm run contracts:verify",
     "ci:phase0": "npm run privacy:scan"
   },
   "engines": {
