@@ -1,0 +1,13 @@
+{
+  "name": "tyree-life-command-center-next",
+  "version": "0.0.0-private-foundation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "privacy:scan": "node scripts/privacy-scan.mjs",
+    "ci:phase0": "npm run privacy:scan"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,33 @@
+# The supplied behavioral oracle is never tracked.
+index.html
+legacy-source/
+local-reference/
+
+# Real backups and exports are never tracked.
+*.backup.json
+*backup*.json
+*life-update*.json
+*level5*.json
+*work-win-proof*.json
+*.private.json
+downloads/
+
+# Secrets and authenticated browser state.
+.env
+.env.*
+!.env.example
+playwright/.auth/
+
+# Generated output.
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+*.log
+
+# Local editor and OS state.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
