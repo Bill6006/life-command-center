@@ -4,13 +4,13 @@
 - **Current phase:** Phase 6 — Peak Forecast, evidence, capacity, and personal learning
 - **Current branch:** `main`
 - **Latest completed phase:** Phase 5 — Today, Minimum Wins, and move lifecycle
-- **Current work in progress:** Phase 6 is paused at a passing local checkpoint while the audited GitHub Pages release is verified.
-- **Blocked items:** Live Pages deployment is pending the first audited Actions run.
+- **Current work in progress:** Phase 6 is paused at a passing local checkpoint while GitHub's retained pre-rewrite object is purged.
+- **Blocked items:** An unreachable pre-rewrite commit remains available from GitHub by direct SHA and exposes its former author email through the patch endpoint. The repository was returned to private visibility immediately.
 - **Test totals:** 91 tests passed (21 Phase 5 Today/move/UI cases); 5 phase verifiers passed; production PWA build and privacy scan passed; dependency audit found 0 vulnerabilities
 - **Latest mobile screenshots:** [Phase 5 Can't now sheet](docs/screenshots/phase-5-cant-now-sheet.jpg) — 412 × 915
-- **Live preview:** GitHub Pages is configured through Actions; first deployment pending
-- **Next concrete action:** Verify the first Pages deployment unauthenticated at repository-subpath and Android size, then resume Phase 6.
-- **Last updated:** 2026-07-29 16:08 EDT
+- **Live preview:** Pages deployment #2 passed, but public release is withdrawn until GitHub purges the retained pre-rewrite object
+- **Next concrete action:** Purge GitHub's retained pre-rewrite objects through Support, or explicitly authorize repository recreation; then repeat the unauthenticated release audit.
+- **Last updated:** 2026-07-29 16:20 EDT
 
 ## Monitoring
 
@@ -23,19 +23,19 @@
 
 ## Privacy status
 
-- Repository visibility: public after complete release audit
+- Repository visibility: private after retained-object rollback
 - Legacy monolith tracked: no
 - Real backup or export tracked: no
 - Personal screenshots tracked: no
 - Local privacy scan: passed, including reachable Git history and build output
-- Remote privacy scan: passed on rewritten noreply history
-- Deployment enabled: GitHub Pages through Actions; first run pending
+- Remote privacy scan: passed on rewritten noreply history, but GitHub still serves an unreachable pre-rewrite object by direct SHA
+- Deployment enabled: no; Pages configuration is retained but guarded to public visibility
 
 ## Phase history
 
 | Phase | Status | Evidence |
 | --- | --- | --- |
-| Phase 0 — Repository and privacy foundation | Complete | [Monitoring commit](https://github.com/Bill6006/tyree-life-command-center-next/commit/e66892ec03bd2ce6ece7677c65318a7716a0fe2a), [Actions](https://github.com/Bill6006/tyree-life-command-center-next/actions) |
+| Phase 0 — Repository and privacy foundation | Complete | [Monitoring commit](https://github.com/Bill6006/tyree-life-command-center-next/commit/cfb22d0b2fd0a0b40a633bb568b93b38f7306427), [Actions](https://github.com/Bill6006/tyree-life-command-center-next/actions) |
 | Phase 1 — Complete legacy map and contracts | Complete | [Report](docs/reports/phase-1.md), [tracking issue](https://github.com/Bill6006/tyree-life-command-center-next/issues/2) |
 | Phase 2 — Vite / React / TypeScript scaffold | Complete | [Report](docs/reports/phase-2.md), [tracking issue](https://github.com/Bill6006/tyree-life-command-center-next/issues/3) |
 | Phase 3 — State, migrations, storage, and verified restore | Complete | [Report](docs/reports/phase-3.md), [tracking issue](https://github.com/Bill6006/tyree-life-command-center-next/issues/4) |

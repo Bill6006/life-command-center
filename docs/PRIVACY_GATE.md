@@ -1,7 +1,10 @@
 # Privacy Gate
 
 This repository started private. The owner approved public visibility on
-2026-07-29 after the history-wide release audit passed.
+2026-07-29 after the history-wide release audit passed. A subsequent
+unauthenticated check found that GitHub still served an unreachable,
+pre-rewrite commit object by direct SHA. The repository was immediately
+returned to private visibility pending a GitHub-side purge.
 
 ## Protected boundary
 
@@ -49,10 +52,13 @@ Deployment remains disabled until all of the following are true:
 If private GitHub Pages is unavailable, CI artifacts remain the preview
 mechanism. No public fallback is automatic.
 
-The gate passed on 2026-07-29. The complete audit, including historical Actions
-logs and artifacts plus manual screenshot review, is recorded in
+The repository-owned portion of the gate passed on 2026-07-29. The complete
+audit, including historical Actions logs and artifacts plus manual screenshot
+review, is recorded in
 [`reports/public-release-privacy-audit.md`](reports/public-release-privacy-audit.md).
-GitHub Pages is configured to deploy only through the audited Actions workflow.
+GitHub Pages is configured to deploy only through the audited Actions workflow
+and only while repository visibility is public. Public release remains blocked
+until GitHub no longer serves the retained pre-rewrite object.
 
 ## Local-first contract
 
