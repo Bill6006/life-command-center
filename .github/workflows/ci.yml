@@ -16,6 +16,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
       - name: Verify repository
         run: npm run ci
       - name: Upload phase evidence
