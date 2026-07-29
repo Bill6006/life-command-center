@@ -1,7 +1,7 @@
 # Privacy Gate
 
-This repository starts private and remains private unless the owner explicitly
-approves a visibility change after the final privacy audit.
+This repository started private. The owner approved public visibility on
+2026-07-29 after the history-wide release audit passed.
 
 ## Protected boundary
 
@@ -20,7 +20,10 @@ history. Fresh-install defaults must remain neutral and blank.
 ## Automated gate
 
 `node scripts/privacy-scan.mjs` scans tracked source, documentation, fixtures,
-public assets, screenshots, JSON, and built output when present. It checks:
+public assets, screenshots, JSON, and built output when present.
+`node scripts/public-release-audit.mjs` additionally scans every reachable
+commit and blob, commit identity metadata, the complete current publishable
+working tree, and the generated build. Together they check:
 
 - hashed signatures of known legacy identifiers and distinctive copied values
 - high-confidence email and phone patterns
@@ -45,6 +48,11 @@ Deployment remains disabled until all of the following are true:
 
 If private GitHub Pages is unavailable, CI artifacts remain the preview
 mechanism. No public fallback is automatic.
+
+The gate passed on 2026-07-29. The complete audit, including historical Actions
+logs and artifacts plus manual screenshot review, is recorded in
+[`reports/public-release-privacy-audit.md`](reports/public-release-privacy-audit.md).
+GitHub Pages is configured to deploy only through the audited Actions workflow.
 
 ## Local-first contract
 

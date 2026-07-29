@@ -10,12 +10,13 @@
     "test": "vitest run",
     "typecheck": "tsc -b",
     "privacy:scan": "node scripts/privacy-scan.mjs",
+    "privacy:public": "node scripts/public-release-audit.mjs",
     "contracts:verify": "node scripts/verify-phase1.mjs",
     "shell:verify": "node scripts/verify-phase2.mjs",
     "storage:verify": "node scripts/verify-phase3.mjs",
     "guides:verify": "node scripts/verify-phase4.mjs",
     "today:verify": "node scripts/verify-phase5.mjs",
-    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run privacy:scan",
+    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run privacy:scan && npm run privacy:public",
     "ci:phase0": "npm run privacy:scan"
   },
   "dependencies": {

@@ -8,10 +8,15 @@ deliberately excluded from Git.
 
 - [Project status](PROJECT_STATUS.md)
 - [Privacy gate](docs/PRIVACY_GATE.md)
+- [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
 - [GitHub Actions](../../actions)
 
 The application will remain deterministic and browser-local. It will not add
 analytics, telemetry, advertising, cloud sync, or remote user-state logging.
+
+The public application is deployed only through the repository's GitHub Pages
+workflow after the full CI, build-output privacy, and reachable-history audit
+gates pass.
 
 ## Local development
 
