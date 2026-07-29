@@ -244,8 +244,13 @@ if (artifactDirectory) {
   walk(artifactDirectory, "artifact", artifactDirectory, false);
 }
 
-const localReferenceIgnored =
-  git(["check-ignore", "-q", "local-reference"]).toString() === "";
+let localReferenceIgnored = false;
+try {
+  git(["check-ignore", "-q", "--no-index", "local-reference/audit-probe"]);
+  localReferenceIgnored = true;
+} catch {
+  localReferenceIgnored = false;
+}
 if (!localReferenceIgnored) {
   findings.push("working-tree:local-reference: local-only analysis directory is not ignored");
 }
