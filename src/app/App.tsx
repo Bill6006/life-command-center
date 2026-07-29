@@ -1,5 +1,7 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { APP_TIME_ZONE, APP_TIME_ZONE_LABEL, createBlankShellState } from "../domain/defaults";
+import { GuideControls, GuideOverlay, GuideTarget } from "../guides/GuideExperience";
+import { useGuideRuntime } from "../guides/useGuideRuntime";
 import { navigateToTab, subscribeToHash, tabFromHash } from "../navigation/hashRoute";
 import { getTabDefinition, TAB_REGISTRY, type TabId } from "../navigation/tabRegistry";
 
@@ -50,18 +52,24 @@ function FirstRunNotice() {
         <span className="eyebrow">Fresh private workspace</span>
         <h2 id="first-run-title">This rebuild starts empty on purpose.</h2>
         <p>
-          No legacy profile or history is bundled. Verified Full Backup import arrives with the
-          storage layer in Phase 3.
+          No legacy profile or history is bundled. The verified restore foundation is ready on the
+          Data path without shipping a real backup.
         </p>
       </div>
       <button className="button button-secondary" type="button" onClick={() => navigateToTab("data")}>
-        View data plan
+        Open Data
       </button>
     </aside>
   );
 }
 
-function ScreenFoundation({ activeTab }: { activeTab: TabId }) {
+function ScreenFoundation({
+  activeTab,
+  currentGuideStep
+}: {
+  activeTab: TabId;
+  currentGuideStep: ReturnType<typeof useGuideRuntime>["currentStep"];
+}) {
   const screen = getTabDefinition(activeTab);
 
   return (
@@ -104,6 +112,7 @@ function ScreenFoundation({ activeTab }: { activeTab: TabId }) {
           </div>
         </dl>
       </aside>
+      <GuideTarget step={currentGuideStep} activeTab={activeTab} />
     </section>
   );
 }
@@ -138,10 +147,35 @@ function FoundationDetails() {
 
 export function App() {
   const activeTab = useActiveTab();
+  const guides = useGuideRuntime();
 
   useEffect(() => {
     if (!window.location.hash) navigateToTab("today");
   }, []);
+
+  useEffect(() => {
+    if (guides.saveStatus !== "loading") guides.rememberActiveTab(activeTab);
+  }, [activeTab, guides.rememberActiveTab, guides.saveStatus]);
+
+  useEffect(() => {
+    const step = guides.currentStep;
+    if (!step) return;
+    navigateToTab(step.tab);
+    const timer = window.setTimeout(() => {
+      document.querySelectorAll<HTMLElement>('[data-guide-target="active"]').forEach((target) => {
+        delete target.dataset.guideTarget;
+      });
+      const target = document.getElementById(step.targetId);
+      if (!target) {
+        guides.setNotice(`The ${step.title} target is unavailable. Guide progress remains saved.`);
+        return;
+      }
+      target.dataset.guideTarget = "active";
+      target.focus({ preventScroll: true });
+      target.scrollIntoView?.({ block: "center", behavior: "smooth" });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [guides.currentStep, guides.setNotice]);
 
   return (
     <div className="app-shell">
@@ -150,12 +184,14 @@ export function App() {
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Private rebuild · Phase 2</small>
+            <small>Private rebuild · Phase 4</small>
           </span>
         </a>
         <div className="date-block">
           <span>{currentDateLabel()}</span>
-          <small>{APP_TIME_ZONE_LABEL} · device-local data</small>
+          <small>
+            {APP_TIME_ZONE_LABEL} · {guides.saveStatus === "saved" ? "saved locally" : guides.saveStatus}
+          </small>
         </div>
       </header>
 
@@ -163,13 +199,38 @@ export function App() {
 
       <main className="main-content">
         <FirstRunNotice />
-        <ScreenFoundation activeTab={activeTab} />
+        <GuideControls runtime={guides} />
+        <ScreenFoundation activeTab={activeTab} currentGuideStep={guides.currentStep} />
         <FoundationDetails />
       </main>
 
+      <nav className="bottom-navigation" aria-label="Mobile primary navigation">
+        <button type="button" data-active={activeTab === "today"} onClick={() => navigateToTab("today")}>
+          Today
+        </button>
+        <button type="button" data-active={activeTab === "week"} onClick={() => navigateToTab("week")}>
+          Week
+        </button>
+        <button
+          type="button"
+          className="bottom-guide-button"
+          onClick={() => document.getElementById("guide-controls")?.scrollIntoView({ behavior: "smooth" })}
+        >
+          Guide
+        </button>
+        <button type="button" data-active={activeTab === "pattern"} onClick={() => navigateToTab("pattern")}>
+          Pattern
+        </button>
+        <button type="button" data-active={activeTab === "data"} onClick={() => navigateToTab("data")}>
+          Data
+        </button>
+      </nav>
+
+      <GuideOverlay runtime={guides} />
+
       <footer>
         <span>Tyree Life Command Center</span>
-        <span>Blank defaults · build 0.2</span>
+        <span>Local-first guides · build 0.4</span>
       </footer>
     </div>
   );

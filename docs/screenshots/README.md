@@ -8,3 +8,6 @@ desktop, and zoom-stress evidence before it can be marked complete.
 
 - [Phase 2 mobile shell](phase-2-mobile-shell.jpg) — 412 × 915 synthetic
   first-run state, captured after routing and console-error checks passed.
+- [Phase 4 guide overlay](phase-4-guide-overlay.jpg) — 412 × 915 synthetic
+  Afternoon guide at the cross-tab Faith target, captured after reload,
+  routing, and console checks passed.

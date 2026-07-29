@@ -21,9 +21,13 @@ npm run dev
 ```
 
 The production check is `npm run ci`. It verifies privacy, the legacy contracts,
-unit behavior, the TypeScript/Vite PWA build, the 12-tab shell, and built-output
-privacy.
+unit behavior, the TypeScript/Vite PWA build, the 12-tab shell, verified storage,
+the deterministic guide engine, mobile evidence, and built-output privacy.
 
 The current shell starts with zero personal records. Import and verified restore
 are implemented as a tested storage library; the Data-screen controls arrive in
 Phase 8. Do not place a real backup in the repository.
+
+Phase 4 adds browser-local autosave plus Morning, Afternoon, Evening,
+missed-Morning, Smart Check-In, and Weekly guide sessions. Guide navigation
+never marks evidence complete merely by opening a screen.
