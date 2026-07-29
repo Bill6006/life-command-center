@@ -12,3 +12,17 @@ deliberately excluded from Git.
 
 The application will remain deterministic and browser-local. It will not add
 analytics, telemetry, advertising, cloud sync, or remote user-state logging.
+
+## Local development
+
+```sh
+npm install
+npm run dev
+```
+
+The production check is `npm run ci`. It verifies privacy, the legacy contracts,
+unit behavior, the TypeScript/Vite PWA build, the 12-tab shell, and built-output
+privacy.
+
+The current shell starts with zero personal records. Import and verified restore
+arrive in Phase 3; do not place a real backup in the repository.

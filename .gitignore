@@ -1,7 +1,9 @@
-# The supplied behavioral oracle is never tracked.
-index.html
+# The supplied behavioral oracle is never tracked. The modular Vite shell owns
+# the new root index.html; legacy/original copies remain forbidden.
 legacy-source/
 local-reference/
+legacy-index.html
+original-index.html
 
 # Real backups and exports are never tracked.
 *.backup.json

@@ -29,13 +29,16 @@ const textExtensions = new Set([
 const forbiddenNames = [
   /(^|\/)legacy-source(\/|$)/i,
   /(^|\/)local-reference(\/|$)/i,
-  /(^|\/)index\.html$/i,
+  /(^|\/)(?:legacy|original)[^/]*\.html$/i,
   /backup.*\.json$/i,
   /life-update.*\.json$/i,
   /level5.*\.json$/i,
   /work-win-proof.*\.json$/i,
   /\.private\.json$/i
 ];
+const forbiddenFileHashes = new Set([
+  "8beb34f3389bd9945b2ec860a590820a963f90b434c32b6ad18ef7e173823865"
+]);
 const genericDetectors = [
   {
     label: "email address",
@@ -121,12 +124,21 @@ for (const file of files) {
   }
 
   const absolute = join(root, file);
+  const bytes = readFileSync(absolute);
+  const fileHash = createHash("sha256").update(bytes).digest("hex");
+  if (forbiddenFileHashes.has(fileHash)) {
+    findings.push(`${portable}: authoritative legacy source fingerprint`);
+  }
   if (!existsSync(absolute) || !textExtensions.has(extname(file).toLowerCase())) {
     continue;
   }
 
-  const text = readFileSync(absolute, "utf8");
+  const text = bytes.toString("utf8");
+  const isDependencyLock = /(?:package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$/i.test(portable);
   for (const detector of genericDetectors) {
+    // Published package metadata can carry public maintainer contacts. Other
+    // secret, credential, key, and protected-signature checks still apply.
+    if (isDependencyLock && detector.label === "email address") continue;
     detector.pattern.lastIndex = 0;
     if (detector.pattern.test(text)) findings.push(`${portable}: ${detector.label}`);
   }
