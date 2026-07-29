@@ -3,7 +3,7 @@ import { migrateState } from "../state/migrations";
 import { canonicalRestoreSignature, canonicalStateJson, stateForStorage } from "./canonical";
 
 export interface FullBackupEnvelope {
-  app: "Tyree Life Command Center";
+  app: "Life Command Center";
   exportType: "Full Backup";
   formatVersion: 1;
   schemaVersion: string;
@@ -31,7 +31,7 @@ export async function buildFullBackup(
   const state = stateForStorage(migrateState(input));
   const now = options.now ?? new Date();
   return {
-    app: "Tyree Life Command Center",
+    app: "Life Command Center",
     exportType: "Full Backup",
     formatVersion: 1,
     schemaVersion: CURRENT_SCHEMA_VERSION,

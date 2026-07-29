@@ -1,6 +1,6 @@
-# Tyree Life Command Center Next
+# Life Command Center
 
-Privacy-first, local-first modular rebuild of the Tyree Life Command Center.
+Privacy-first, local-first modular rebuild of Life Command Center.
 
 The project is being rebuilt from a separately held behavioral reference. The
 legacy monolith, real backups, personal exports, and real user history are
@@ -10,13 +10,16 @@ deliberately excluded from Git.
 - [Privacy gate](docs/PRIVACY_GATE.md)
 - [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
 - [GitHub Actions](../../actions)
+- Expected permanent Pages URL:
+  `https://bill6006.github.io/life-command-center/`
 
 The application will remain deterministic and browser-local. It will not add
 analytics, telemetry, advertising, cloud sync, or remote user-state logging.
 
 The public application is deployed only through the repository's GitHub Pages
 workflow after the full CI, build-output privacy, and reachable-history audit
-gates pass.
+gates pass. Public deployment is currently blocked because GitHub still serves
+an unreachable retained object from the deleted predecessor repository.
 
 ## Local development
 

@@ -16,6 +16,7 @@ describe("application shell", () => {
   it("shows the privacy-safe first-run message", () => {
     render(<App />);
 
+    expect(screen.getByRole("link", { name: "Life Command Center home" })).toBeInTheDocument();
     expect(screen.getByText("This rebuild starts empty on purpose.")).toBeInTheDocument();
     expect(
       within(screen.getByRole("navigation", { name: "Command center areas" })).getAllByRole(

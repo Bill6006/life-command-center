@@ -17,6 +17,7 @@ describe("Full Backup", () => {
       now: new Date("2042-01-02T12:00:00.000Z"),
       effectiveDate: "2042-01-02"
     });
+    expect(JSON.parse(json).app).toBe("Life Command Center");
     const prepared = await prepareBackupText(json);
 
     expect(prepared.verified).toBe(true);

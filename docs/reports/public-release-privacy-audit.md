@@ -2,96 +2,110 @@
 
 ## Result
 
-The repository-owned publishable surfaces passed the public-release audit on
-2026-07-29. GitHub Pages deployment #2 also passed and the live application
-loaded correctly from the expected repository subpath.
+The replacement `Bill6006/life-command-center` repository remains private.
+Its clean reachable history and exact paused Phase 6 working checkpoint were
+restored from an independently verified recovery package.
 
-The final unauthenticated privacy check then found that GitHub still served an
-unreachable, pre-rewrite commit by direct SHA. Its patch representation exposed
-the former personal author email even though the rewritten branch, ordinary
-clone history, build, logs, and current artifacts were clean. The repository
-was immediately returned to private visibility. Public release is blocked until
-GitHub purges that retained object or the owner authorizes repository
-recreation.
+The deleted predecessor repository still has two unauthenticated GitHub cached
+views: the retained commit page and its patch representation. Public release is
+therefore **blocked**. The replacement repository must not become public and
+GitHub Pages must not deploy until GitHub Support purges those views and both
+recorded URLs return 404 without authentication.
 
-## Scope and evidence
+## Recovery and recreation evidence
 
-- all 11 reachable commits and 142 unique Git-history blobs;
-- all 118 current publishable working-tree files, including the paused Phase 6
-  checkpoint;
-- all 9 generated production-build files;
-- source, documentation, synthetic fixtures, tests, package metadata, public
-  assets, and all three mobile screenshots;
-- all 16 existing GitHub Actions runs and their 16 job logs;
-- all 7 downloadable Actions artifacts, containing 41 extracted files;
-- filenames and content for environment files, credentials, private keys,
-  tokens, personal contacts, address patterns, Social Security numbers,
-  non-empty personal notes, personal financial values, real backups/exports,
-  protected-source signatures, and real-person identifiers; and
-- the supplied monolith's SHA-256 fingerprint and the protected hashed
+Before deletion, the external recovery package captured and verified:
+
+- the complete 118-file working project, including all 17 paused Phase 6 files;
+- a clean bundle advertising only `refs/heads/main`;
+- 12 reachable commits with GitHub noreply-only author and committer identities;
+- no tags, original refs, replace refs, backup refs, hidden refs, or
+  pull-request refs;
+- an empty tracked-change patch, matching the clean tracked worktree;
+- a separate archive of all 17 untracked Phase 6 files;
+- repository status, branches, commits, issues, labels, milestone, and project
+  status inventory;
+- SHA-256 hashes and written restore instructions; and
+- an independent bundle clone, archive extraction, byte-for-byte file
+  comparison, 132-test run, and expanded privacy audit.
+
+The old repository was deleted only after all recovery checks passed. The new
+repository was then created under the required name with private visibility.
+
+## Audit scope
+
+The privacy review covers:
+
+- every reachable commit, identity, tree, and unique blob;
+- current source, documentation, synthetic fixtures, tests, and public assets;
+- the generated production build and PWA outputs;
+- all three sanitized mobile screenshots;
+- the predecessor's 16 Actions runs and 16 job logs;
+- the predecessor's 7 downloadable Actions artifacts containing 41 extracted
+  files;
+- environment files, credentials, private keys, tokens, personal contacts,
+  addresses, phone numbers, Social Security numbers, private notes, financial
+  values, real backups/exports, and protected-source signatures; and
+- the supplied monolith's SHA-256 fingerprint plus the one-way protected
   signature denylist.
-
-The original author/committer email in Git metadata was the only release
-blocker found. All nine commits were rewritten to use the repository owner's
-GitHub noreply identity. Original local refs were removed, reflogs expired,
-unreachable objects pruned, and the rewritten history was force-pushed while
-the repository was private.
 
 ## Results
 
-- protected monolithic source in reachable history or build: **none**;
+- protected monolithic source in reachable history, recovery archives, or
+  build: **none**;
 - real Life Command Center backup/export data: **none**;
 - personal financial values, notes, addresses, phone numbers, or personal
   profile seeds: **none**;
 - environment files, secrets, credentials, tokens, or private keys: **none**;
-- personal screenshots: **none**; all three images were visually checked and
-  contain synthetic/blank-state UI only;
-- non-noreply commit identities in reachable history: **none**;
+- personal screenshots: **none**; all three images contain synthetic or
+  blank-state UI only;
+- non-noreply identities in clean reachable history: **none**;
+- old personal commit email in the clean bundle or replacement history:
+  **none**;
 - Actions artifacts with personal data: **none**; and
-- Actions log findings: one public third-party package-maintainer address from
-  dependency metadata, not repository-owner or application-user data.
+- predecessor Actions log finding: one public third-party
+  package-maintainer address from dependency metadata, not application-owner
+  or user data.
 
-## GitHub retained-object blocker
+## Replacement deployment configuration
 
-The local rewrite removed the sensitive commit metadata from every reachable
-ref, expired local reflogs, pruned unreachable local objects, and force-pushed
-the clean history. GitHub nevertheless retained at least one old object behind
-its direct commit and patch URLs. This host-side object is not returned by
-`git clone`, `git rev-list --all`, or the repository's current branch APIs, so
-the expanded local scanner cannot delete it.
+- Repository: `https://github.com/Bill6006/life-command-center`
+- Required repository base: `/life-command-center/`
+- Expected Pages URL: `https://bill6006.github.io/life-command-center/`
+- Visible product name: `Life Command Center`
+- Router: hash routes below the repository base
+- PWA scope: `/life-command-center/`
+- PWA start URL: `/life-command-center/#/today`
+- Pages source: GitHub Actions only
+- Pages job guard: repository visibility must be public
 
-Safe resolution requires one of:
+The build verifier checks scripts, styles, manifest, icons, service-worker
+precache entries, start URL, scope, and predecessor-path absence.
 
-1. GitHub Support purging the cached views and retained objects for the
-   rewritten commits; or
-2. deleting and recreating the repository from the clean local history, which
-   would remove the current Issues, milestone, Actions history, and repository
-   identity metadata.
+## Retained-object blocker
 
-The second option is destructive and requires explicit owner authorization.
+Deletion removed the old repository from the repository API, but did not purge
+the retained commit and patch views. The test targets and results are stored
+only in the external recovery package so the replacement repository does not
+publish a discovery path to the sensitive cached representation.
 
-The ignored `local-reference/` directory and the separately supplied source
-remain local-only and are not part of Git history, build output, artifacts, or
-the Pages publication surface.
+This is a GitHub-hosted object outside the replacement repository's reachable
+refs. Local history rewriting, pruning, repository deletion, and replacement
+creation cannot remove it.
 
-## Automated gates
+## Release gate
 
-- expanded local audit:
-  `11 commits, 142 history blobs, 118 current files, 9 build files`;
-- historical Actions audit: `16 runs, 16 job logs, 7 downloadable artifacts,
-  41 extracted artifact files`;
-- [Repository CI #9](https://github.com/Bill6006/tyree-life-command-center-next/actions/runs/30486355252):
-  passed on rewritten history; and
-- [Privacy scan #9](https://github.com/Bill6006/tyree-life-command-center-next/actions/runs/30486355263):
-  passed on rewritten history.
+Public visibility and Pages deployment remain prohibited until:
 
-## Remaining release steps
+1. GitHub Support purges the deleted predecessor's cached commit and patch
+   views.
+2. Both recorded URLs return 404 in a fresh unauthenticated request.
+3. The replacement repository's complete tree, history, build, Actions logs,
+   artifacts, and screenshots pass the privacy audit again.
+4. Privacy Scan and Repository CI pass on the exact public-release commit.
+5. Pages deploys through GitHub Actions.
+6. The permanent URL passes unauthenticated repository-subpath, asset,
+   manifest, service-worker, routing, and Android-sized verification.
 
-1. Complete GitHub owner re-authentication and make the repository public.
-2. Confirm the retained pre-rewrite commit and patch URLs return 404 to an
-   unauthenticated request.
-3. Configure or re-enable Pages through GitHub Actions.
-4. Run CI, the tree privacy scan, the history-wide audit, and Pages deployment.
-5. Repeat live URL verification in an unauthenticated fresh browser, including
-   repository-subpath assets/hash routing and the Android-sized layout.
-6. Record the verified URL in `PROJECT_STATUS.md` before Phase 6 resumes.
+Phase 6 stays paused at its restored passing checkpoint while this external
+release blocker remains.

@@ -1,10 +1,13 @@
 # Privacy Gate
 
-This repository started private. The owner approved public visibility on
-2026-07-29 after the history-wide release audit passed. A subsequent
-unauthenticated check found that GitHub still served an unreachable,
-pre-rewrite commit object by direct SHA. The repository was immediately
-returned to private visibility pending a GitHub-side purge.
+The replacement `Bill6006/life-command-center` repository started private on
+2026-07-29. It was recreated only after a complete external recovery package
+and clean reachable-history bundle were independently verified.
+
+The predecessor repository was then deleted. GitHub still serves an
+unreachable pre-rewrite commit and patch from that deleted namespace. The
+replacement repository must remain private pending a GitHub-side purge and
+unauthenticated 404 confirmation.
 
 ## Protected boundary
 
@@ -47,18 +50,20 @@ Deployment remains disabled until all of the following are true:
 3. The production bundle contains no protected value.
 4. Privacy scanning passes against both repository and build output.
 5. Fixtures have been manually confirmed synthetic.
-6. Public visibility, if required, has explicit owner approval.
+6. The deleted predecessor commit and patch URLs return 404 unauthenticated.
+7. Public visibility, if required, has explicit owner approval.
 
 If private GitHub Pages is unavailable, CI artifacts remain the preview
 mechanism. No public fallback is automatic.
 
-The repository-owned portion of the gate passed on 2026-07-29. The complete
-audit, including historical Actions logs and artifacts plus manual screenshot
-review, is recorded in
+The replacement repository-owned portion of the gate passed locally on
+2026-07-29. The complete audit, including the predecessor's historical Actions
+logs and artifacts plus manual screenshot review, is recorded in
 [`reports/public-release-privacy-audit.md`](reports/public-release-privacy-audit.md).
 GitHub Pages is configured to deploy only through the audited Actions workflow
 and only while repository visibility is public. Public release remains blocked
-until GitHub no longer serves the retained pre-rewrite object.
+until GitHub no longer serves either retained pre-rewrite URL from the deleted
+predecessor namespace.
 
 ## Local-first contract
 

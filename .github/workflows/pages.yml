@@ -31,6 +31,8 @@ jobs:
         run: npm ci
       - name: Run full CI and privacy gates
         run: npm run ci
+      - name: Verify /life-command-center/ deployment paths
+        run: npm run shell:verify
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact

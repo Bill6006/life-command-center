@@ -40,7 +40,7 @@ The successor envelope is versioned and accepts the legacy forms:
 
 ```ts
 interface FullBackupEnvelope {
-  app: "Tyree Life Command Center";
+  app: "Life Command Center";
   exportType: "Full Backup";
   formatVersion: number;
   schemaVersion: string;

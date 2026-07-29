@@ -63,8 +63,12 @@ if (failures.length === 0) {
 
   const vite = read("vite.config.ts");
   for (const marker of [
-    'base: "./"',
-    'start_url: "./#/today"',
+    'const REPOSITORY_BASE = "/life-command-center/"',
+    "base: REPOSITORY_BASE",
+    'name: "Life Command Center"',
+    "scope: REPOSITORY_BASE",
+    "start_url: `${REPOSITORY_BASE}#/today`",
+    "navigateFallback: `${REPOSITORY_BASE}index.html`",
     'display: "standalone"',
     'registerType: "autoUpdate"'
   ]) {
@@ -72,8 +76,43 @@ if (failures.length === 0) {
   }
 
   const builtIndex = read("dist/index.html");
-  if (/=["']\/(?:assets|icon-|manifest|sw\.)/i.test(builtIndex)) {
-    failures.push("built index: root-absolute asset path breaks repository subpaths");
+  for (const marker of [
+    'src="/life-command-center/assets/',
+    'href="/life-command-center/assets/',
+    'href="/life-command-center/manifest.webmanifest"'
+  ]) {
+    if (!builtIndex.includes(marker)) failures.push(`built index: missing ${marker}`);
+  }
+  if (/\/[^/]*command-center-next\//i.test(builtIndex)) {
+    failures.push("built index: contains the deleted predecessor subpath");
+  }
+
+  const manifest = JSON.parse(read("dist/manifest.webmanifest"));
+  if (manifest.name !== "Life Command Center") {
+    failures.push(`manifest: expected Life Command Center, found ${manifest.name ?? "missing"}`);
+  }
+  if (manifest.scope !== "/life-command-center/") {
+    failures.push(`manifest: unexpected scope ${manifest.scope ?? "missing"}`);
+  }
+  if (manifest.start_url !== "/life-command-center/#/today") {
+    failures.push(`manifest: unexpected start_url ${manifest.start_url ?? "missing"}`);
+  }
+  const iconPaths = (manifest.icons ?? []).map((icon) => icon.src);
+  for (const iconPath of [
+    "/life-command-center/icon-192.png",
+    "/life-command-center/icon-512.png"
+  ]) {
+    if (!iconPaths.includes(iconPath)) failures.push(`manifest: missing ${iconPath}`);
+  }
+
+  const serviceWorker = read("dist/sw.js");
+  for (const marker of [
+    "/life-command-center/index.html",
+    'url:"icon-192.png"',
+    'url:"icon-512.png"',
+    'url:"manifest.webmanifest"'
+  ]) {
+    if (!serviceWorker.includes(marker)) failures.push(`service worker: missing ${marker}`);
   }
 
   const rootIndexBytes = readFileSync(resolve(root, "index.html"));
@@ -123,6 +162,7 @@ if (failures.length > 0) {
 }
 
 console.log(
-  "Phase 2 verified: 12 routed tabs, blank defaults, Error Boundary, relative " +
-    "subpath build, PWA shell, icons, and 412x915 synthetic mobile evidence."
+  "Phase 2 verified: 12 routed tabs, blank defaults, Error Boundary, explicit " +
+    "/life-command-center/ asset, manifest and service-worker paths, PWA shell, " +
+    "icons, and 412x915 synthetic mobile evidence."
 );

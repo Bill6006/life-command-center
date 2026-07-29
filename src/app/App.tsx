@@ -181,7 +181,7 @@ export function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="#/today" aria-label="Tyree Life Command Center home">
+        <a className="brand" href="#/today" aria-label="Life Command Center home">
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
@@ -234,7 +234,7 @@ export function App() {
       <GuideOverlay runtime={guides} />
 
       <footer>
-        <span>Tyree Life Command Center</span>
+        <span>Life Command Center</span>
         <span>Local-first command layer · build 0.5</span>
       </footer>
     </div>
