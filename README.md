@@ -25,4 +25,5 @@ unit behavior, the TypeScript/Vite PWA build, the 12-tab shell, and built-output
 privacy.
 
 The current shell starts with zero personal records. Import and verified restore
-arrive in Phase 3; do not place a real backup in the repository.
+are implemented as a tested storage library; the Data-screen controls arrive in
+Phase 8. Do not place a real backup in the repository.

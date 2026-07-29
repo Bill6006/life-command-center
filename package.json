@@ -12,12 +12,14 @@
     "privacy:scan": "node scripts/privacy-scan.mjs",
     "contracts:verify": "node scripts/verify-phase1.mjs",
     "shell:verify": "node scripts/verify-phase2.mjs",
-    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run privacy:scan",
+    "storage:verify": "node scripts/verify-phase3.mjs",
+    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run privacy:scan",
     "ci:phase0": "npm run privacy:scan"
   },
   "dependencies": {
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.4",
@@ -25,6 +27,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.7.0",
+    "fake-indexeddb": "^6.2.2",
     "jsdom": "^26.1.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.3",
