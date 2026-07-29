@@ -31,3 +31,8 @@ Phase 8. Do not place a real backup in the repository.
 Phase 4 adds browser-local autosave plus Morning, Afternoon, Evening,
 missed-Morning, Smart Check-In, and Weekly guide sessions. Guide navigation
 never marks evidence complete merely by opening a screen.
+
+Phase 5 adds the evidence-aware Today command layer, exactly three versioned
+Minimum Wins, current-context safety, structured temporary constraints, and a
+single active move with pause, completion, undo, alternatives, and later effect
+checks.

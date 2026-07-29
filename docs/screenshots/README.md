@@ -11,3 +11,6 @@ desktop, and zoom-stress evidence before it can be marked complete.
 - [Phase 4 guide overlay](phase-4-guide-overlay.jpg) — 412 × 915 synthetic
   Afternoon guide at the cross-tab Faith target, captured after reload,
   routing, and console checks passed.
+- [Phase 5 Can't now sheet](phase-5-cant-now-sheet.jpg) — 412 × 915 synthetic
+  structured-feedback surface, captured after normal mobile and 200%-equivalent
+  zoom-stress checks passed.

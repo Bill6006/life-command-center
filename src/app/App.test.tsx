@@ -17,7 +17,11 @@ describe("application shell", () => {
     render(<App />);
 
     expect(screen.getByText("This rebuild starts empty on purpose.")).toBeInTheDocument();
-    expect(screen.getByText("12 of 12")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("navigation", { name: "Command center areas" })).getAllByRole(
+        "button"
+      )
+    ).toHaveLength(12);
   });
 
   it("routes between registered tabs using the hash", async () => {
@@ -65,5 +69,38 @@ describe("application shell", () => {
         "active"
       )
     );
+  });
+
+  it("updates Today Score and changes the command in driving context", async () => {
+    render(<App />);
+    await screen.findByText("Saved locally");
+    const energy = screen.getByRole("group", { name: "Energy" });
+    fireEvent.click(within(energy).getByRole("button", { name: "Steady" }));
+    await waitFor(() =>
+      expect(within(screen.getByRole("status", { name: "Today Score" })).getByText("2")).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Driving" }));
+    expect(await screen.findByRole("heading", { name: "Protect the drive" })).toBeInTheDocument();
+    expect(screen.getByText(/Do not interact with this screen/)).toBeInTheDocument();
+  });
+
+  it("runs the visible move lifecycle and structured Can't now sheet", async () => {
+    render(<App />);
+    await screen.findByText("Saved locally");
+    fireEvent.click(screen.getByRole("button", { name: "Try this" }));
+    expect(await screen.findByText(/Active move · started/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Pause here" }));
+    expect(await screen.findByRole("button", { name: "Resume" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Resume" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Can't now" }));
+    const dialog = await screen.findByRole("dialog", {
+      name: "What makes this a “can't now”?"
+    });
+    fireEvent.click(within(dialog).getByLabelText("I need privacy"));
+    fireEvent.click(within(dialog).getByRole("button", { name: "Save constraint" }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(screen.queryByText(/Active move ·/i)).not.toBeInTheDocument();
   });
 });

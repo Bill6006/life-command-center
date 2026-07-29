@@ -59,3 +59,20 @@ explicit boundary`. Phase 1 establishes contracts only.
 
 Nothing is marked implemented in Phase 1. Later phases must update this matrix
 only when behavior has both an implementation and an objective parity test.
+
+## Successor implementation ledger
+
+| Surface | Current status | Evidence |
+| --- | --- | --- |
+| Repository privacy and monitoring | Verified | Phase 0 issue and CI privacy workflow |
+| Legacy map and contracts | Verified | [Phase 1 report](reports/phase-1.md) |
+| App shell, 12-tab navigation, PWA, and mobile foundation | Verified | [Phase 2 report](reports/phase-2.md) |
+| Storage, recovery, migration, Full Backup, and verified restore | Verified | [Phase 3 report](reports/phase-3.md) |
+| Quick Mode, six guide families, routing, automation, and persistence | Verified | [Phase 4 report](reports/phase-4.md) |
+| Today Score and current-context command layer | Verified | [Phase 5 report](reports/phase-5.md) |
+| Action lifecycle and temporary constraint feedback | Verified | [Phase 5 report](reports/phase-5.md) |
+| Exactly three versioned Minimum Wins | Verified | [Phase 5 report](reports/phase-5.md) |
+| Fitbod exact-programming boundary | Verified boundary | One readiness-ladder candidate; no exercise prescription |
+| Forecast, capacity, and personal optimization | Contracted | Phase 6 |
+| Domain screens | Contracted | Phase 7 |
+| Exports, diagnostics, and final acceptance | Contracted | Phase 8 |

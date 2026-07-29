@@ -136,11 +136,8 @@ export function useGuideRuntime() {
     return () => owner.stop();
   }, []);
 
-  const persist = useCallback((nextGuides: GuideState, activeTab?: string) => {
-    const nextRoot = cloneState(rootRef.current);
+  const commitRoot = useCallback((nextRoot: AppState, nextGuides: GuideState) => {
     const timestamp = new Date();
-    nextRoot.settings.guides = nextGuides;
-    if (activeTab && isTabId(activeTab)) nextRoot.settings.activeTab = activeTab;
     nextRoot._inputUpdatedAt = timestamp.toISOString();
     rootRef.current = nextRoot;
     setRootState(nextRoot);
@@ -165,6 +162,27 @@ export function useGuideRuntime() {
         }
       });
   }, []);
+
+  const persist = useCallback(
+    (nextGuides: GuideState, activeTab?: string) => {
+      const nextRoot = cloneState(rootRef.current);
+      nextRoot.settings.guides = nextGuides;
+      if (activeTab && isTabId(activeTab)) nextRoot.settings.activeTab = activeTab;
+      commitRoot(nextRoot, nextGuides);
+    },
+    [commitRoot]
+  );
+
+  const mutateRoot = useCallback(
+    (mutation: (state: AppState) => void) => {
+      const nextRoot = cloneState(rootRef.current);
+      mutation(nextRoot);
+      const nextGuides = parseGuideState(nextRoot.settings.guides);
+      nextRoot.settings.guides = nextGuides;
+      commitRoot(nextRoot, nextGuides);
+    },
+    [commitRoot]
+  );
 
   const applyTransition = useCallback(
     (transition: GuideTransition) => {
@@ -265,6 +283,7 @@ export function useGuideRuntime() {
     skip,
     stop,
     toggleQuickMode,
-    rememberActiveTab
+    rememberActiveTab,
+    mutateRoot
   };
 }

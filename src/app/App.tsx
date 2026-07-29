@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { APP_TIME_ZONE, APP_TIME_ZONE_LABEL, createBlankShellState } from "../domain/defaults";
+import { TodayScreen } from "../features/today/TodayScreen";
 import { GuideControls, GuideOverlay, GuideTarget } from "../guides/GuideExperience";
 import { useGuideRuntime } from "../guides/useGuideRuntime";
 import { navigateToTab, subscribeToHash, tabFromHash } from "../navigation/hashRoute";
@@ -184,7 +185,7 @@ export function App() {
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Private rebuild · Phase 4</small>
+            <small>Private rebuild · Phase 5</small>
           </span>
         </a>
         <div className="date-block">
@@ -200,7 +201,11 @@ export function App() {
       <main className="main-content">
         <FirstRunNotice />
         <GuideControls runtime={guides} />
-        <ScreenFoundation activeTab={activeTab} currentGuideStep={guides.currentStep} />
+        {activeTab === "today" ? (
+          <TodayScreen runtime={guides} />
+        ) : (
+          <ScreenFoundation activeTab={activeTab} currentGuideStep={guides.currentStep} />
+        )}
         <FoundationDetails />
       </main>
 
@@ -230,7 +235,7 @@ export function App() {
 
       <footer>
         <span>Tyree Life Command Center</span>
-        <span>Local-first guides · build 0.4</span>
+        <span>Local-first command layer · build 0.5</span>
       </footer>
     </div>
   );
