@@ -2,15 +2,16 @@
 
 ## Result
 
-The replacement `Bill6006/life-command-center` repository remains private.
-Its clean reachable history and exact paused Phase 6 working checkpoint were
-restored from an independently verified recovery package.
+The replacement `Bill6006/life-command-center` repository is ready for its
+owner-authorized public release. Its clean reachable history and exact paused
+Phase 6 working checkpoint were restored from an independently verified
+recovery package.
 
 The deleted predecessor repository still has two unauthenticated GitHub cached
-views: the retained commit page and its patch representation. Public release is
-therefore **blocked**. The replacement repository must not become public and
-GitHub Pages must not deploy until GitHub Support purges those views and both
-recorded URLs return 404 without authentication.
+views: the retained commit page and its patch representation. GitHub Support
+purging remains required, but on 2026-07-29 the owner explicitly authorized
+publishing the independently audited replacement repository without waiting
+for that separate GitHub-hosted object to be purged.
 
 ## Recovery and recreation evidence
 
@@ -31,6 +32,26 @@ Before deletion, the external recovery package captured and verified:
 
 The old repository was deleted only after all recovery checks passed. The new
 repository was then created under the required name with private visibility.
+
+## Replacement automated evidence
+
+- local CI passed with 132 tests, all five phase verifiers, the production PWA
+  build, and privacy gates while the 17 paused Phase 6 files remained
+  untracked;
+- the post-commit audit covered 13 reachable commits, 161 unique history
+  blobs, 118 current files, and 9 generated build files;
+- [Repository CI #1](https://github.com/Bill6006/life-command-center/actions/runs/30500235025)
+  passed against the clean committed replacement tree;
+- [Privacy Scan #1](https://github.com/Bill6006/life-command-center/actions/runs/30500235013)
+  passed against the same commit;
+- the `phase-evidence` artifact had digest
+  `sha256:9dc85daf1aa75f5ea656be8cb189eac2ca5c24ecb26e43f2ce41cdf982428a2f`,
+  contained 9 files, and passed the expanded artifact audit;
+- the replacement CI and privacy logs were inspected; the only email found was
+  public third-party dependency-maintainer metadata and no credential was
+  exposed; and
+- [Pages run #1](https://github.com/Bill6006/life-command-center/actions/runs/30500234995)
+  was safely skipped while the replacement repository was private.
 
 ## Audit scope
 
@@ -82,7 +103,7 @@ The privacy review covers:
 The build verifier checks scripts, styles, manifest, icons, service-worker
 precache entries, start URL, scope, and predecessor-path absence.
 
-## Retained-object blocker
+## Retained-object follow-up
 
 Deletion removed the old repository from the repository API, but did not purge
 the retained commit and patch views. The test targets and results are stored
@@ -95,17 +116,15 @@ creation cannot remove it.
 
 ## Release gate
 
-Public visibility and Pages deployment remain prohibited until:
+For the owner-authorized replacement release:
 
-1. GitHub Support purges the deleted predecessor's cached commit and patch
-   views.
-2. Both recorded URLs return 404 in a fresh unauthenticated request.
-3. The replacement repository's complete tree, history, build, Actions logs,
+1. The replacement repository's complete tree, history, build, Actions logs,
    artifacts, and screenshots pass the privacy audit again.
-4. Privacy Scan and Repository CI pass on the exact public-release commit.
-5. Pages deploys through GitHub Actions.
-6. The permanent URL passes unauthenticated repository-subpath, asset,
+2. Privacy Scan and Repository CI pass on the exact public-release commit.
+3. Pages deploys through GitHub Actions.
+4. The permanent URL passes unauthenticated repository-subpath, asset,
    manifest, service-worker, routing, and Android-sized verification.
 
-Phase 6 stays paused at its restored passing checkpoint while this external
-release blocker remains.
+GitHub Support purging of the predecessor's cached views remains a separate
+privacy follow-up. Phase 6 stays paused at its restored passing checkpoint
+until the replacement deployment is verified.

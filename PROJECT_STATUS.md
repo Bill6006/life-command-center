@@ -4,13 +4,13 @@
 - **Current phase:** Phase 6 — Peak Forecast, evidence, capacity, and personal learning
 - **Current branch:** `main`
 - **Latest completed phase:** Phase 5 — Today, Minimum Wins, and move lifecycle
-- **Current work in progress:** Phase 6 is restored at its exact passing local checkpoint while the deleted predecessor repository's retained object is purged.
-- **Blocked items:** GitHub still serves an unreachable pre-rewrite commit and patch under the deleted predecessor namespace. The replacement repository must remain private until both URLs return 404 unauthenticated.
+- **Current work in progress:** Publishing the verified clean replacement `main` branch; Phase 6 remains restored at its exact passing local checkpoint.
+- **Known external issue:** GitHub still serves an unreachable pre-rewrite commit and patch under the deleted predecessor namespace. The owner explicitly authorized publishing the independently audited replacement while a GitHub Support purge remains outstanding.
 - **Test totals:** 132 tests passed after independently restoring the clean bundle and all 17 paused Phase 6 files; 5 phase verifiers, production PWA build, and privacy gates pass
 - **Latest mobile screenshots:** [Phase 5 Can't now sheet](docs/screenshots/phase-5-cant-now-sheet.jpg) — 412 × 915
-- **Live preview:** Disabled. Expected permanent URL after GitHub Support clears the blocker: https://bill6006.github.io/life-command-center/
-- **Next concrete action:** GitHub Support must purge the deleted predecessor repository's retained commit views; then repeat the unauthenticated 404 audit before public visibility or Pages deployment.
-- **Last updated:** 2026-07-29 19:30 EDT
+- **Live preview:** Deployment pending at https://bill6006.github.io/life-command-center/
+- **Next concrete action:** Make the verified replacement public, run the release checks, and deploy through GitHub Actions.
+- **Last updated:** 2026-07-29 19:46 EDT
 
 ## Monitoring
 
@@ -18,6 +18,8 @@
 - [Phase 0 issue](https://github.com/Bill6006/life-command-center/issues/1)
 - [Phase 1 issue](https://github.com/Bill6006/life-command-center/issues/2)
 - [Actions](https://github.com/Bill6006/life-command-center/actions)
+- [Repository CI #1](https://github.com/Bill6006/life-command-center/actions/runs/30500235025)
+- [Privacy Scan #1](https://github.com/Bill6006/life-command-center/actions/runs/30500235013)
 - [Pages deployment](https://github.com/Bill6006/life-command-center/actions/workflows/pages.yml)
 - [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
 
@@ -28,8 +30,9 @@
 - Real backup or export tracked: no
 - Personal screenshots tracked: no
 - Local privacy scan: passed, including reachable Git history and build output
-- Remote privacy scan: pending the replacement repository's initial clean-history push
-- Deployment enabled: no; Pages remains guarded to public visibility and the retained-object gate is blocked
+- Remote privacy scan: passed on replacement commit `756af6f430e3232183fb4663813a10e3033ba3cb`
+- Repository CI: passed on replacement commit `756af6f430e3232183fb4663813a10e3033ba3cb`
+- Deployment enabled: pending public visibility; the Pages workflow remains guarded until then
 
 ## Phase history
 
