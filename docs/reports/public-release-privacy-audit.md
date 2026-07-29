@@ -2,8 +2,8 @@
 
 ## Result
 
-The replacement `Bill6006/life-command-center` repository is ready for its
-owner-authorized public release. Its clean reachable history and exact paused
+The replacement `Bill6006/life-command-center` repository is public and its
+GitHub Pages application is live. Its clean reachable history and exact paused
 Phase 6 working checkpoint were restored from an independently verified
 recovery package.
 
@@ -52,6 +52,13 @@ repository was then created under the required name with private visibility.
   exposed; and
 - [Pages run #1](https://github.com/Bill6006/life-command-center/actions/runs/30500234995)
   was safely skipped while the replacement repository was private.
+
+Before publication, [Repository CI #2](https://github.com/Bill6006/life-command-center/actions/runs/30500699263)
+and [Privacy Scan #2](https://github.com/Bill6006/life-command-center/actions/runs/30500699282)
+passed on release commit `ae2030bef98579010ef933efaa0295ccf3d35917`.
+[Deploy Pages #3](https://github.com/Bill6006/life-command-center/actions/runs/30500884086)
+then reran the full CI, privacy, build, and subpath gates before deploying that
+same commit successfully.
 
 ## Audit scope
 
@@ -125,6 +132,12 @@ For the owner-authorized replacement release:
 4. The permanent URL passes unauthenticated repository-subpath, asset,
    manifest, service-worker, routing, and Android-sized verification.
 
+All four replacement release gates passed. The permanent site at
+`https://bill6006.github.io/life-command-center/` returned 200 for its base,
+script, stylesheet, manifest, 192- and 512-pixel icons, service worker, and
+Workbox assets. The `#/data` route worked at 412 × 915 with no horizontal page
+overflow.
+
 GitHub Support purging of the predecessor's cached views remains a separate
-privacy follow-up. Phase 6 stays paused at its restored passing checkpoint
-until the replacement deployment is verified.
+privacy follow-up. Phase 6 resumed from its restored passing checkpoint after
+the replacement deployment was verified.
