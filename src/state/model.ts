@@ -7,6 +7,8 @@ export type UnknownRecord = Record<string, unknown>;
 
 export interface AppSettings extends UnknownRecord {
   activeTab: string;
+  autoBackupEnabled: boolean;
+  autoBackupMinutes: number;
   dayRolloverMode: string;
   timeZone: string;
   timeZoneLabel: string;
@@ -52,6 +54,8 @@ export function createBlankAppState(): AppState {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     settings: {
       activeTab: "today",
+      autoBackupEnabled: true,
+      autoBackupMinutes: 30,
       dayRolloverMode: "after_sleep_4am",
       timeZone: APP_TIME_ZONE,
       timeZoneLabel: APP_TIME_ZONE_LABEL,

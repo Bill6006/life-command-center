@@ -9,6 +9,12 @@ import {
   MemoryKeyValueStore
 } from "../storage/adapters";
 import { StorageCoordinator } from "../storage/coordinator";
+import type { PreparedBackup } from "../storage/fullBackup";
+import { STORAGE_KEYS } from "../storage/keys";
+import {
+  VerifiedRestoreCoordinator,
+  type RestoreMode
+} from "../storage/verifiedRestore";
 import { GuideAutomationOwner } from "./automation";
 import {
   missedMorningEligibility,
@@ -43,6 +49,7 @@ import type {
 import { createBlankGuideState } from "./types";
 
 export type SaveStatus = "loading" | "saved" | "saving" | "error";
+export type BackupStatus = "idle" | "saving" | "saved" | "error";
 
 const blankEvidence: EvidenceSnapshot = { satisfied: {} };
 
@@ -64,6 +71,8 @@ export function useGuideRuntime() {
   const [rootState, setRootState] = useState<AppState>(() => createBlankAppState());
   const [guideState, setGuideState] = useState<GuideState>(() => createBlankGuideState());
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("loading");
+  const [backupStatus, setBackupStatus] = useState<BackupStatus>("idle");
+  const [lastBackupAt, setLastBackupAt] = useState<string | null>(null);
   const [notice, setNotice] = useState<string>("");
   const [clock, setClock] = useState(() => new Date());
   const rootRef = useRef(rootState);
@@ -86,9 +95,30 @@ export function useGuideRuntime() {
     let disposed = false;
     const coordinator = browserCoordinator();
     coordinatorRef.current = coordinator;
-    void coordinator
-      .load()
-      .then(({ state }) => {
+    const restore = new VerifiedRestoreCoordinator(
+      coordinator.local,
+      coordinator.indexed
+    );
+    void (async () => {
+      let restoreNotice = "";
+      let verifiedRestore: AppState | null = null;
+      if (coordinator.local.getItem(STORAGE_KEYS.restorePending)) {
+        try {
+          verifiedRestore = await restore.verifyPendingOnBoot();
+          if (verifiedRestore) {
+            restoreNotice = "Restore verified after reload.";
+          }
+        } catch {
+          restoreNotice =
+            "Restore verification failed and the exact pre-import state was recovered.";
+        }
+      }
+      const loaded = verifiedRestore
+        ? { state: verifiedRestore }
+        : await coordinator.load();
+      return { state: loaded.state, restoreNotice };
+    })()
+      .then(({ state, restoreNotice }) => {
         if (disposed) return;
         const loadedGuides = reconcileRecoveredGuideState(
           parseGuideState(state.settings.guides),
@@ -103,6 +133,7 @@ export function useGuideRuntime() {
         setRootState(state);
         setGuideState(loadedGuides);
         setSaveStatus("saved");
+        if (restoreNotice) setNotice(restoreNotice);
         if (isTabId(state.settings.activeTab) && initialHashRef.current === "") {
           navigateToTab(state.settings.activeTab);
         }
@@ -116,6 +147,39 @@ export function useGuideRuntime() {
       disposed = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (
+      saveStatus === "loading" ||
+      rootState.settings.autoBackupEnabled === false
+    ) {
+      return;
+    }
+    const minutes = Math.min(
+      1440,
+      Math.max(5, rootState.settings.autoBackupMinutes || 30)
+    );
+    const timer = window.setInterval(() => {
+      const coordinator = coordinatorRef.current;
+      if (!coordinator) return;
+      setBackupStatus("saving");
+      void coordinator
+        .saveLatestBackup(rootRef.current)
+        .then(() => {
+          setLastBackupAt(new Date().toISOString());
+          setBackupStatus("saved");
+        })
+        .catch(() => {
+          setBackupStatus("error");
+          setNotice("The scheduled recovery snapshot could not be verified.");
+        });
+    }, minutes * 60 * 1000);
+    return () => window.clearInterval(timer);
+  }, [
+    rootState.settings.autoBackupEnabled,
+    rootState.settings.autoBackupMinutes,
+    saveStatus
+  ]);
 
   useEffect(() => {
     const owner = new GuideAutomationOwner(
@@ -179,6 +243,55 @@ export function useGuideRuntime() {
       commitRoot(nextRoot, nextGuides);
     },
     [commitRoot]
+  );
+
+  const createRecoveryBackup = useCallback(async () => {
+    const coordinator = coordinatorRef.current;
+    if (!coordinator) throw new Error("Storage is still loading.");
+    setBackupStatus("saving");
+    try {
+      await coordinator.saveLatestBackup(rootRef.current);
+      const completedAt = new Date().toISOString();
+      setLastBackupAt(completedAt);
+      setBackupStatus("saved");
+      setNotice("Latest recovery snapshot verified in both local storage layers.");
+    } catch (error) {
+      setBackupStatus("error");
+      setNotice("The recovery snapshot could not be verified.");
+      throw error;
+    }
+  }, []);
+
+  const prepareRestore = useCallback(async (text: string) => {
+    const coordinator = coordinatorRef.current;
+    if (!coordinator) throw new Error("Storage is still loading.");
+    const restore = new VerifiedRestoreCoordinator(
+      coordinator.local,
+      coordinator.indexed
+    );
+    return restore.prepare(text);
+  }, []);
+
+  const executeRestore = useCallback(
+    async (prepared: PreparedBackup, mode: RestoreMode) => {
+      const coordinator = coordinatorRef.current;
+      if (!coordinator) throw new Error("Storage is still loading.");
+      const restore = new VerifiedRestoreCoordinator(
+        coordinator.local,
+        coordinator.indexed,
+        (state) => {
+          rootRef.current = state;
+          setRootState(state);
+          setGuideState(parseGuideState(state.settings.guides));
+        }
+      );
+      const result = await restore.execute(prepared, mode, rootRef.current);
+      if (result.status === "pending-reload-verification") {
+        window.location.reload();
+      }
+      return result;
+    },
+    []
   );
 
   const applyTransition = useCallback(
@@ -265,6 +378,8 @@ export function useGuideRuntime() {
     rootState,
     guideState,
     saveStatus,
+    backupStatus,
+    lastBackupAt,
     notice,
     setNotice,
     context,
@@ -281,6 +396,9 @@ export function useGuideRuntime() {
     stop,
     toggleQuickMode,
     rememberActiveTab,
-    mutateRoot
+    mutateRoot,
+    createRecoveryBackup,
+    prepareRestore,
+    executeRestore
   };
 }

@@ -32,9 +32,10 @@ The production check is `npm run ci`. It verifies privacy, the legacy contracts,
 unit behavior, the TypeScript/Vite PWA build, the 12-tab shell, verified storage,
 the deterministic guide engine, mobile evidence, and built-output privacy.
 
-The current shell starts with zero personal records. Import and verified restore
-are implemented as a tested storage library; the Data-screen controls arrive in
-Phase 8. Do not place a real backup in the repository.
+The current shell starts with zero personal records. The Data screen exposes
+signed Full Backup, rollback-safe Replace/Merge/Cancel restore, local recovery
+snapshots, sanitized analytical exports, and explicitly on-demand diagnostics.
+Do not place a real backup or generated export in the repository.
 
 Phase 4 adds browser-local autosave plus Morning, Afternoon, Evening,
 missed-Morning, Smart Check-In, and Weekly guide sessions. Guide navigation
@@ -49,3 +50,8 @@ Phase 6 adds the deterministic Peak Forecast path, evidence-qualified context,
 bottleneck and candidate gates, capacity lanes, authoritative Weekly Focus,
 bounded personal learning, independent maturity truth, and synthetic golden
 parity.
+
+Phase 8 adds 7/30/all Life Update projections, Level 5 and Phase 17 reports,
+sanitized or explicitly full Work Win packets, and grouped Phase 68 acceptance.
+Automated checks remain YELLOW until separate deployment and mobile verification
+is complete.

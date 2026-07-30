@@ -96,6 +96,16 @@ function normalizeCurrentShape(state: UnknownRecord): UnknownRecord {
       ...blank.settings,
       ...settings,
       activeTab: typeof settings.activeTab === "string" ? settings.activeTab : "today",
+      autoBackupEnabled:
+        typeof settings.autoBackupEnabled === "boolean"
+          ? settings.autoBackupEnabled
+          : true,
+      autoBackupMinutes:
+        typeof settings.autoBackupMinutes === "number" &&
+        settings.autoBackupMinutes >= 5 &&
+        settings.autoBackupMinutes <= 1440
+          ? settings.autoBackupMinutes
+          : 30,
       dayRolloverMode:
         typeof settings.dayRolloverMode === "string"
           ? settings.dayRolloverMode

@@ -35,7 +35,28 @@ describe("application shell", () => {
     );
 
     expect(window.location.hash).toBe("#/data");
-    expect(await screen.findByText("Your state stays yours.")).toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", {
+        name: "Keep recovery close and exports intentional."
+      })
+    ).toBeInTheDocument();
+  });
+
+  it("keeps deep diagnostics on demand on the Data screen", async () => {
+    window.location.hash = "#/data";
+    render(<App />);
+
+    expect(
+      await screen.findByText("Not run. No deep diagnostic work has executed.")
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("button", { name: "Run Phase 68 acceptance" })
+    );
+
+    expect(await screen.findByText("YELLOW")).toBeInTheDocument();
+    expect(
+      screen.getByText("11 of 11 automated groups passed")
+    ).toBeInTheDocument();
   });
 
   it("keeps an explicit domain deep link instead of replacing it with the saved tab", async () => {

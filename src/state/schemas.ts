@@ -6,6 +6,8 @@ const unknownRecordSchema = z.record(z.string(), z.unknown());
 export const appSettingsSchema = z
   .object({
     activeTab: z.string().default("today"),
+    autoBackupEnabled: z.boolean().default(true),
+    autoBackupMinutes: z.number().min(5).max(1440).default(30),
     dayRolloverMode: z.string().default("after_sleep_4am"),
     timeZone: z.string().default("America/New_York"),
     timeZoneLabel: z.string().default("Eastern Time"),

@@ -4,13 +4,13 @@
 - **Current phase:** Phase 8 — Data, exports, diagnostics, and acceptance
 - **Current branch:** `main`
 - **Latest completed phase:** Phase 7 — Domain screens
-- **Current work in progress:** Phase 7 is complete and deployed; Phase 8 begins with the existing Data/storage/export contract.
+- **Current work in progress:** Phase 8 implementation is complete; full local gates and the first public Phase 8 deployment are next.
 - **Retained-object deletion gate:** Passed. The deleted predecessor's retained commit and `.patch` targets both return 404 in unauthenticated requests.
-- **Test totals:** 154 tests across 30 files; 7 phase verifiers, production PWA build, and privacy gates pass
+- **Test totals:** 163 tests across 32 files; 8 phase verifiers, production PWA build, and privacy gates are required
 - **Latest mobile screenshots:** [Phase 7 deployed domain evidence](docs/screenshots/README.md) — twelve blank-state screenshots from a 412 × 915 logical viewport
 - **Live preview:** https://bill6006.github.io/life-command-center/ — Phase 7 verified unauthenticated across 176 width/zoom/route combinations
-- **Next concrete action:** Begin Phase 8 with the Data screen, on-demand exports, diagnostics, and acceptance without changing Phase 7 domain contracts.
-- **Last updated:** 2026-07-29 21:06 EDT
+- **Next concrete action:** Run the complete Phase 8 repository, history, build, and privacy gates; then deploy and verify the permanent live URL.
+- **Last updated:** 2026-07-29 21:29 EDT
 
 ## Monitoring
 

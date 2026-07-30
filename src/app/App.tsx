@@ -1,13 +1,12 @@
 import { useEffect, useSyncExternalStore } from "react";
-import { APP_TIME_ZONE, APP_TIME_ZONE_LABEL, createBlankShellState } from "../domain/defaults";
+import { APP_TIME_ZONE, APP_TIME_ZONE_LABEL } from "../domain/defaults";
+import { DataScreen } from "../features/data/DataScreen";
 import { DomainScreen, isDomainTab } from "../features/domains";
 import { TodayScreen } from "../features/today/TodayScreen";
-import { GuideControls, GuideOverlay, GuideTarget } from "../guides/GuideExperience";
+import { GuideControls, GuideOverlay } from "../guides/GuideExperience";
 import { useGuideRuntime } from "../guides/useGuideRuntime";
 import { navigateToTab, subscribeToHash, tabFromHash } from "../navigation/hashRoute";
-import { getTabDefinition, TAB_REGISTRY, type TabId } from "../navigation/tabRegistry";
-
-const blankState = createBlankShellState();
+import { TAB_REGISTRY, type TabId } from "../navigation/tabRegistry";
 
 function currentDateLabel() {
   return new Intl.DateTimeFormat("en-US", {
@@ -62,60 +61,6 @@ function FirstRunNotice() {
         Open Data
       </button>
     </aside>
-  );
-}
-
-function ScreenFoundation({
-  activeTab,
-  currentGuideStep
-}: {
-  activeTab: TabId;
-  currentGuideStep: ReturnType<typeof useGuideRuntime>["currentStep"];
-}) {
-  const screen = getTabDefinition(activeTab);
-
-  return (
-    <section className="screen-grid" aria-labelledby="screen-title">
-      <article className="command-card">
-        <div className="command-orbit" aria-hidden="true">
-          <span>{screen.monogram}</span>
-        </div>
-        <div className="command-copy">
-          <span className="eyebrow">{screen.eyebrow}</span>
-          <h1 id="screen-title">{screen.title}</h1>
-          <p>{screen.description}</p>
-          <div className="command-actions">
-            <button className="button button-primary" type="button" disabled>
-              Check-in arrives in {screen.phase}
-            </button>
-            <span className="quiet-status">
-              <span className="status-dot" />
-              Blank state confirmed
-            </span>
-          </div>
-        </div>
-      </article>
-
-      <aside className="foundation-card">
-        <span className="eyebrow">Foundation status</span>
-        <h2>Ready for behavior, not carrying history.</h2>
-        <dl className="status-list">
-          <div>
-            <dt>Privacy</dt>
-            <dd>Local-first</dd>
-          </div>
-          <div>
-            <dt>Starting records</dt>
-            <dd>{Object.keys(blankState.days).length}</dd>
-          </div>
-          <div>
-            <dt>Mapped areas</dt>
-            <dd>{TAB_REGISTRY.length} of 12</dd>
-          </div>
-        </dl>
-      </aside>
-      <GuideTarget step={currentGuideStep} activeTab={activeTab} />
-    </section>
   );
 }
 
@@ -186,7 +131,7 @@ export function App() {
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Local-first rebuild · Phase 7</small>
+            <small>Local-first rebuild · Phase 8</small>
           </span>
         </a>
         <div className="date-block">
@@ -204,9 +149,7 @@ export function App() {
         <GuideControls runtime={guides} />
         {activeTab === "today" ? <TodayScreen runtime={guides} /> : null}
         {isDomainTab(activeTab) ? <DomainScreen activeTab={activeTab} runtime={guides} /> : null}
-        {activeTab === "data" ? (
-          <ScreenFoundation activeTab={activeTab} currentGuideStep={guides.currentStep} />
-        ) : null}
+        {activeTab === "data" ? <DataScreen runtime={guides} /> : null}
         <FoundationDetails />
       </main>
 
@@ -236,7 +179,7 @@ export function App() {
 
       <footer>
         <span>Life Command Center</span>
-        <span>Local-first command layer · build 0.7</span>
+        <span>Local-first command layer · build 0.8</span>
       </footer>
     </div>
   );
