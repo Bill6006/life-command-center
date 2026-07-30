@@ -77,3 +77,4 @@ only when behavior has both an implementation and an objective parity test.
 | Domain screens | Verified | [Phase 7 report](reports/phase-7.md) |
 | Exports, diagnostics, and final acceptance | Verified | [Phase 8 report](reports/phase-8.md) |
 | Visual polish, keyboard access, touch targets, and platform accessibility | Verified | [Phase 9 report](reports/phase-9.md) |
+| Final privacy, migration, Android, cutover, rollback, and fallback boundary | Implemented; owner confirmation pending | [Phase 10 report](reports/phase-10.md) |

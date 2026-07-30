@@ -9,6 +9,10 @@ deliberately excluded from Git.
 - [Project status](PROJECT_STATUS.md)
 - [Privacy gate](docs/PRIVACY_GATE.md)
 - [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
+- [Private migration runbook](docs/migration-runbook.md)
+- [Physical Android checklist](docs/android-test-checklist.md)
+- [Cutover checklist](docs/cutover-checklist.md)
+- [Rollback plan](docs/rollback-plan.md)
 - [GitHub Actions](../../actions)
 - Expected permanent Pages URL:
   `https://bill6006.github.io/life-command-center/`
@@ -60,3 +64,9 @@ Phase 9 adds skip navigation, modal focus trapping and Escape close, live status
 announcements, consistent focus rings and spacing, 44-pixel primary targets,
 safe-area protection, reduced-motion behavior, forced-colors support, and
 contrast regression checks without removing application behavior.
+
+Phase 10 adds the final full-history/build/Actions-artifact privacy checkpoint,
+private migration runbook, physical Android checklist, cutover decision, and
+rollback plan. Repository-owned gates may complete automatically, but final
+status remains YELLOW until the owner explicitly confirms real backup import,
+matching day count/signature, physical Android restore, and real-world use.

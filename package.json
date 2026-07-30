@@ -20,7 +20,8 @@
     "domains:verify": "node scripts/verify-phase7.mjs",
     "data:verify": "node scripts/verify-phase8.mjs",
     "accessibility:verify": "node scripts/verify-phase9.mjs",
-    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run intelligence:verify && npm run domains:verify && npm run data:verify && npm run accessibility:verify && npm run privacy:scan && npm run privacy:public",
+    "cutover:verify": "node scripts/verify-phase10.mjs",
+    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run intelligence:verify && npm run domains:verify && npm run data:verify && npm run accessibility:verify && npm run cutover:verify && npm run privacy:scan && npm run privacy:public",
     "ci:phase0": "npm run privacy:scan"
   },
   "dependencies": {

@@ -2,12 +2,13 @@
 
 The replacement `Bill6006/life-command-center` repository started private on
 2026-07-29. It was recreated only after a complete external recovery package
-and clean reachable-history bundle were independently verified.
+and clean reachable-history bundle were independently verified. It became
+public only after the replacement privacy gates passed and the owner approved
+publication.
 
-The predecessor repository was then deleted. GitHub still serves an
-unreachable pre-rewrite commit and patch from that deleted namespace. The
-replacement repository must remain private pending a GitHub-side purge and
-unauthenticated 404 confirmation.
+The predecessor repository was deleted. Its retained commit and patch targets
+now return 404 in fresh unauthenticated requests, so the retained-object gate is
+satisfied.
 
 ## Protected boundary
 
@@ -56,14 +57,19 @@ Deployment remains disabled until all of the following are true:
 If private GitHub Pages is unavailable, CI artifacts remain the preview
 mechanism. No public fallback is automatic.
 
-The replacement repository-owned portion of the gate passed locally on
-2026-07-29. The complete audit, including the predecessor's historical Actions
-logs and artifacts plus manual screenshot review, is recorded in
+The replacement repository-owned gate passed locally and remotely. The
+complete audit, including predecessor evidence, the replacement's complete
+reachable history, current build, all retained Actions artifacts, and manual
+screenshot review, is recorded in
 [`reports/public-release-privacy-audit.md`](reports/public-release-privacy-audit.md).
 GitHub Pages is configured to deploy only through the audited Actions workflow
-and only while repository visibility is public. Public release remains blocked
-until GitHub no longer serves either retained pre-rewrite URL from the deleted
-predecessor namespace.
+and only while repository visibility is public. The permanent public release
+URL is `https://bill6006.github.io/life-command-center/`.
+
+Privacy and deployment gates do not authorize importing or publishing real
+user data. Phase 10 remains YELLOW until private owner-only backup and physical
+Android confirmation; that status gate does not require making any private data
+public.
 
 ## Local-first contract
 
