@@ -18,6 +18,10 @@ describe("application shell", () => {
 
     expect(screen.getByRole("link", { name: "Life Command Center home" })).toBeInTheDocument();
     expect(screen.getByText("This rebuild starts empty on purpose.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
+      "href",
+      "#main-content"
+    );
     expect(
       within(screen.getByRole("navigation", { name: "Command center areas" })).getAllByRole(
         "button"
@@ -159,7 +163,7 @@ describe("application shell", () => {
 
     render(<App />);
 
-    expect(await screen.findByRole("dialog", { name: "Life Checks" })).toBeInTheDocument();
+    expect(await screen.findByRole("region", { name: "Life Checks" })).toBeInTheDocument();
     await waitFor(() =>
       expect(document.getElementById("guide-target-core-state")).toHaveAttribute(
         "data-guide-target",
@@ -199,5 +203,27 @@ describe("application shell", () => {
     fireEvent.click(within(dialog).getByRole("button", { name: "Save constraint" }));
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
     expect(screen.queryByText(/Active move ·/i)).not.toBeInTheDocument();
+  });
+
+  it("traps modal focus, closes on Escape, and restores the trigger", async () => {
+    render(<App />);
+    await screen.findByText("Saved locally");
+    fireEvent.click(screen.getByRole("button", { name: "Try this" }));
+    await screen.findByText(/Active move · started/i);
+    const trigger = screen.getByRole("button", { name: "Can't now" });
+    trigger.focus();
+    fireEvent.click(trigger);
+    const dialog = await screen.findByRole("dialog", {
+      name: "What makes this a “can't now”?"
+    });
+    const close = within(dialog).getByRole("button", { name: "Close Can't now" });
+    await waitFor(() => expect(close).toHaveFocus());
+
+    fireEvent.keyDown(document, { key: "Tab", shiftKey: true });
+    expect(within(dialog).getByRole("button", { name: "Save constraint" })).toHaveFocus();
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    expect(trigger).toHaveFocus();
   });
 });

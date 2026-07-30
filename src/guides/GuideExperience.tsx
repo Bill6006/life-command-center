@@ -45,7 +45,12 @@ export function GuideControls({ runtime }: { runtime: Runtime }) {
             manufactures an answer.
           </p>
         </div>
-        <div className="save-chip" data-status={runtime.saveStatus}>
+        <div
+          className="save-chip"
+          data-status={runtime.saveStatus}
+          role="status"
+          aria-live="polite"
+        >
           <span className="status-dot" />
           {runtime.saveStatus === "loading"
             ? "Opening local state"
@@ -134,7 +139,7 @@ export function GuideControls({ runtime }: { runtime: Runtime }) {
         </div>
       )}
       {runtime.notice && (
-        <div className="guide-notice" role="status">
+        <div className="guide-notice" role="status" aria-live="polite">
           <span>{runtime.notice}</span>
           <button type="button" aria-label="Dismiss guide message" onClick={() => runtime.setNotice("")}>
             ×
@@ -174,7 +179,12 @@ export function GuideOverlay({ runtime }: { runtime: Runtime }) {
   if (!active || !step) return null;
   const finalStep = active.stepIndex === active.stepIds.length - 1;
   return (
-    <aside className="guide-overlay" role="dialog" aria-labelledby="active-guide-title">
+    <aside
+      className="guide-overlay"
+      role="region"
+      aria-live="polite"
+      aria-labelledby="active-guide-title"
+    >
       <div className="guide-overlay-progress">
         <span>{FAMILY_LABELS[active.family]} Guide</span>
         <span>

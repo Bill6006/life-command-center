@@ -4,13 +4,13 @@
 - **Current phase:** Phase 9 — Visual polish and accessibility
 - **Current branch:** `main`
 - **Latest completed phase:** Phase 8 — Data, exports, diagnostics, and acceptance
-- **Current work in progress:** Phase 8 is complete and deployed; Phase 9 begins with the existing mobile-first and accessibility contracts intact.
+- **Current work in progress:** Phase 9 implementation is complete; full local gates and the first public Phase 9 deployment are next.
 - **Retained-object deletion gate:** Passed. The deleted predecessor's retained commit and `.patch` targets both return 404 in unauthenticated requests.
-- **Test totals:** 163 tests across 32 files; 8 phase verifiers, production PWA build, and privacy gates pass
+- **Test totals:** 169 tests across 33 files; 9 phase verifiers, production PWA build, and privacy gates are required
 - **Latest mobile screenshots:** [Phase 8 deployed Data evidence](docs/screenshots/README.md) — blank Data and on-demand acceptance screens from a 412 × 915 logical viewport
 - **Live preview:** https://bill6006.github.io/life-command-center/ — Phase 8 verified unauthenticated and across all 16 required width/zoom combinations
-- **Next concrete action:** Begin Phase 9 visual polish and accessibility without changing the verified storage, export, diagnostic, domain, or intelligence contracts.
-- **Last updated:** 2026-07-29 21:43 EDT
+- **Next concrete action:** Run the complete Phase 9 gates, deploy, and verify mobile, desktop, zoom, touch, keyboard, contrast, and final screenshot evidence.
+- **Last updated:** 2026-07-29 21:53 EDT
 
 ## Monitoring
 

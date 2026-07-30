@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDialogFocus } from "../../accessibility/useDialogFocus";
 import { GuideTarget } from "../../guides/GuideExperience";
 import type { useGuideRuntime } from "../../guides/useGuideRuntime";
 import type { DayRecord } from "../../state/model";
@@ -78,6 +79,11 @@ export function TodayScreen({ runtime }: { runtime: Runtime }) {
   const [reasonSheetOpen, setReasonSheetOpen] = useState(false);
   const [reason, setReason] = useState<ConstraintReason>("not-enough-time");
   const [reasonNote, setReasonNote] = useState("");
+  const closeReasonSheet = useCallback(() => setReasonSheetOpen(false), []);
+  const reasonDialogRef = useDialogFocus<HTMLElement>(
+    reasonSheetOpen,
+    closeReasonSheet
+  );
 
   const writeToday = (mutation: (draft: TodayState) => TodayState | void) => {
     runtime.mutateRoot((state) => {
@@ -481,13 +487,20 @@ export function TodayScreen({ runtime }: { runtime: Runtime }) {
 
       {reasonSheetOpen && (
         <div className="sheet-backdrop">
-          <section className="cant-now-sheet" role="dialog" aria-labelledby="cant-now-title">
+          <section
+            className="cant-now-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cant-now-title"
+            ref={reasonDialogRef}
+            tabIndex={-1}
+          >
             <div className="sheet-heading">
               <div>
                 <span className="eyebrow">Temporary constraint</span>
                 <h2 id="cant-now-title">What makes this a “can&apos;t now”?</h2>
               </div>
-              <button type="button" aria-label="Close Can't now" onClick={() => setReasonSheetOpen(false)}>
+              <button type="button" aria-label="Close Can't now" onClick={closeReasonSheet}>
                 ×
               </button>
             </div>
@@ -520,7 +533,7 @@ export function TodayScreen({ runtime }: { runtime: Runtime }) {
               />
             </label>
             <div className="sheet-actions">
-              <button className="button button-secondary" type="button" onClick={() => setReasonSheetOpen(false)}>
+              <button className="button button-secondary" type="button" onClick={closeReasonSheet}>
                 Cancel
               </button>
               <button className="button button-primary" type="button" onClick={saveCantNow}>

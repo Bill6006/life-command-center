@@ -27,6 +27,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
   const [prepared, setPrepared] = useState<PreparedBackup | null>(null);
   const [restoreName, setRestoreName] = useState("");
   const [restoreError, setRestoreError] = useState("");
+  const [activityNotice, setActivityNotice] = useState("");
   const [acceptance, setAcceptance] = useState<Phase68Acceptance | null>(null);
   const [diagnosticStatus, setDiagnosticStatus] = useState<
     "idle" | "running" | "complete" | "error"
@@ -34,6 +35,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
   const effectiveDate = runtime.effectiveDate || currentDate();
 
   async function exportFullBackup() {
+    setActivityNotice("Preparing the private Full Backup.");
     const text = await fullBackupJson(runtime.rootState, {
       effectiveDate
     });
@@ -41,6 +43,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       safeExportFilename("full-backup", effectiveDate),
       text
     );
+    setActivityNotice("Full Backup prepared for local download.");
   }
 
   function exportLifeUpdate() {
@@ -53,6 +56,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       safeExportFilename("life-update", effectiveDate),
       exportJson(report)
     );
+    setActivityNotice("Life Update prepared for local download.");
   }
 
   function exportLevel5() {
@@ -65,6 +69,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       safeExportFilename("level-5", effectiveDate),
       exportJson(report)
     );
+    setActivityNotice("Level 5 review prepared for local download.");
   }
 
   function exportPhase17() {
@@ -73,6 +78,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       safeExportFilename("phase-17", effectiveDate),
       exportJson(buildPhase17Report(runtime.rootState, acceptance))
     );
+    setActivityNotice("Phase 17 report prepared for local download.");
   }
 
   function exportWorkWins(
@@ -93,6 +99,11 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       typeof packet === "string" ? packet : exportJson(packet),
       extension === "txt" ? "text/plain" : "application/json"
     );
+    setActivityNotice(
+      mode === "full-metadata-json"
+        ? "Full-metadata Work Win packet prepared for local download."
+        : "Sanitized Work Win packet prepared for local download."
+    );
   }
 
   async function prepareImport(event: ChangeEvent<HTMLInputElement>) {
@@ -102,34 +113,49 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
     setRestoreError("");
     setPrepared(null);
     setRestoreName(file.name);
+    setActivityNotice("Preparing and checking the selected backup.");
     try {
       const next = await runtime.prepareRestore(await file.text());
       setPrepared(next);
+      setActivityNotice(
+        next.verified
+          ? "Full Backup signature verified. Choose Replace, Merge, or Cancel."
+          : "Readable legacy state prepared. Choose Replace, Merge, or Cancel."
+      );
     } catch (error) {
       setRestoreError(
         error instanceof Error ? error.message : "The backup could not be prepared."
       );
+      setActivityNotice("Backup preparation stopped with a readable error.");
     }
   }
 
   async function restore(mode: RestoreMode) {
     if (!prepared) return;
     setRestoreError("");
+    setActivityNotice(
+      mode === "cancel"
+        ? "Cancelling the prepared restore."
+        : `${mode === "replace" ? "Replacing" : "Merging"} local state and verifying both storage layers.`
+    );
     try {
       const result = await runtime.executeRestore(prepared, mode);
       if (result.status === "cancelled") {
         setPrepared(null);
         setRestoreName("");
+        setActivityNotice("Prepared restore cancelled. Local state was not changed.");
       }
     } catch (error) {
       setRestoreError(
         error instanceof Error ? error.message : "The restore could not be verified."
       );
+      setActivityNotice("Restore stopped and the protected local state remains available.");
     }
   }
 
   async function runDiagnostics() {
     setDiagnosticStatus("running");
+    setActivityNotice("Running the on-demand Phase 68 acceptance groups.");
     try {
       const result = await runPhase68Acceptance(runtime.rootState, {
         effectiveDate,
@@ -137,13 +163,20 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
       });
       setAcceptance(result);
       setDiagnosticStatus("complete");
+      setActivityNotice(
+        `Phase 68 completed with ${result.decision}. ${result.groups.filter((group) => group.passed).length} of ${result.groups.length} groups passed.`
+      );
     } catch {
       setDiagnosticStatus("error");
+      setActivityNotice("Phase 68 stopped with a readable error.");
     }
   }
 
   return (
     <section className="data-screen" aria-labelledby="data-screen-title">
+      <p className="sr-only" role="status" aria-live="polite">
+        {activityNotice}
+      </p>
       <article className="data-hero">
         <div className="domain-monogram" aria-hidden="true">
           DA
@@ -207,7 +240,21 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
             <button
               className="button button-primary"
               type="button"
-              onClick={() => void runtime.createRecoveryBackup()}
+              onClick={() => {
+                setActivityNotice("Creating and verifying a recovery snapshot.");
+                void runtime
+                  .createRecoveryBackup()
+                  .then(() =>
+                    setActivityNotice(
+                      "Recovery snapshot verified in both local storage layers."
+                    )
+                  )
+                  .catch(() =>
+                    setActivityNotice(
+                      "Recovery snapshot stopped with a readable error."
+                    )
+                  );
+              }}
               disabled={runtime.backupStatus === "saving"}
             >
               {runtime.backupStatus === "saving"
@@ -240,7 +287,7 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
             <input type="file" accept="application/json,.json" onChange={prepareImport} />
           </label>
           {prepared ? (
-            <div className="restore-review" role="status">
+            <div className="restore-review" role="status" aria-live="polite">
               <strong>{restoreName}</strong>
               <span>
                 {prepared.verified
@@ -273,7 +320,11 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
               </div>
             </div>
           ) : null}
-          {restoreError ? <p className="data-error">{restoreError}</p> : null}
+          {restoreError ? (
+            <p className="data-error" role="alert">
+              {restoreError}
+            </p>
+          ) : null}
         </article>
 
         <article className="data-card data-card-wide" id="data-life-update">
@@ -342,7 +393,12 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
             adoption, and personal outcome evidence remain separate.
           </p>
           {acceptance ? (
-            <div className="diagnostic-result" data-decision={acceptance.decision}>
+            <div
+              className="diagnostic-result"
+              data-decision={acceptance.decision}
+              role="status"
+              aria-live="polite"
+            >
               <strong>{acceptance.decision}</strong>
               <span>
                 {acceptance.groups.filter((group) => group.passed).length} of{" "}
@@ -354,7 +410,9 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
               <small>{acceptance.reasons[1]}</small>
             </div>
           ) : (
-            <p className="diagnostic-idle">Not run. No deep diagnostic work has executed.</p>
+            <p className="diagnostic-idle" role="status">
+              Not run. No deep diagnostic work has executed.
+            </p>
           )}
           <div className="data-actions">
             <button
@@ -375,7 +433,9 @@ export function DataScreen({ runtime }: { runtime: Runtime }) {
             </button>
           </div>
           {diagnosticStatus === "error" ? (
-            <p className="data-error">Diagnostics stopped with a readable failure.</p>
+            <p className="data-error" role="alert">
+              Diagnostics stopped with a readable failure.
+            </p>
           ) : null}
         </article>
       </div>

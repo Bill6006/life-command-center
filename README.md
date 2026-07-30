@@ -55,3 +55,8 @@ Phase 8 adds 7/30/all Life Update projections, Level 5 and Phase 17 reports,
 sanitized or explicitly full Work Win packets, and grouped Phase 68 acceptance.
 Automated checks remain YELLOW until separate deployment and mobile verification
 is complete.
+
+Phase 9 adds skip navigation, modal focus trapping and Escape close, live status
+announcements, consistent focus rings and spacing, 44-pixel primary targets,
+safe-area protection, reduced-motion behavior, forced-colors support, and
+contrast regression checks without removing application behavior.

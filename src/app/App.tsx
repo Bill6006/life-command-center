@@ -126,12 +126,15 @@ export function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <header className="topbar">
         <a className="brand" href="#/today" aria-label="Life Command Center home">
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Local-first rebuild · Phase 8</small>
+            <small>Local-first rebuild · Phase 9</small>
           </span>
         </a>
         <div className="date-block">
@@ -144,7 +147,7 @@ export function App() {
 
       <TabNavigation activeTab={activeTab} />
 
-      <main className="main-content">
+      <main className="main-content" id="main-content" tabIndex={-1}>
         <FirstRunNotice />
         <GuideControls runtime={guides} />
         {activeTab === "today" ? <TodayScreen runtime={guides} /> : null}
@@ -179,7 +182,7 @@ export function App() {
 
       <footer>
         <span>Life Command Center</span>
-        <span>Local-first command layer · build 0.8</span>
+        <span>Local-first command layer · build 0.9</span>
       </footer>
     </div>
   );

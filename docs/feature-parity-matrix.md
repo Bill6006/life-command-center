@@ -76,3 +76,4 @@ only when behavior has both an implementation and an objective parity test.
 | Forecast, capacity, Weekly Focus, personal optimization, and maturity truth | Verified | [Phase 6 report](reports/phase-6.md) |
 | Domain screens | Verified | [Phase 7 report](reports/phase-7.md) |
 | Exports, diagnostics, and final acceptance | Verified | [Phase 8 report](reports/phase-8.md) |
+| Visual polish, keyboard access, touch targets, and platform accessibility | Implemented; deployment evidence pending | [Phase 9 report](reports/phase-9.md) |
