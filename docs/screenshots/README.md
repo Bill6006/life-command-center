@@ -37,3 +37,11 @@ desktop, and zoom-stress evidence before it can be marked complete.
   passed:
   - [Data and storage](phase-8-data.jpg)
   - [On-demand diagnostics](phase-8-diagnostics.jpg)
+- Phase 9 final deployed polish evidence, captured after
+  [Pages deployment](https://github.com/Bill6006/life-command-center/actions/runs/30507636085),
+  keyboard, label, touch-target, asset-path, and 228 responsive route checks
+  passed:
+  - [Android Today](phase-9-mobile-today.jpg) — 412 × 915 logical CSS
+    viewport (397 × 882 page bitmap), blank/synthetic local state.
+  - [Desktop Data](phase-9-desktop-data.jpg) — 1440 × 1000 logical CSS
+    viewport (1405 × 990 page bitmap), blank/synthetic local state.
