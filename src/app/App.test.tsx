@@ -18,10 +18,14 @@ describe("application shell", () => {
 
     expect(screen.getByRole("link", { name: "Life Command Center home" })).toBeInTheDocument();
     expect(screen.getByText("This rebuild starts empty on purpose.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
+    const skipLink = screen.getByRole("link", { name: "Skip to main content" });
+    expect(skipLink).toHaveAttribute(
       "href",
       "#main-content"
     );
+    fireEvent.click(skipLink);
+    expect(document.getElementById("main-content")).toHaveFocus();
+    expect(window.location.hash).toBe("#/today");
     expect(
       within(screen.getByRole("navigation", { name: "Command center areas" })).getAllByRole(
         "button"
