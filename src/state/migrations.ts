@@ -30,6 +30,12 @@ const knownRootKeys = new Set([
   "learning",
   "money",
   "faith",
+  "health",
+  "pattern",
+  "social",
+  "therapy",
+  "vision",
+  "environment",
   "weeklyAnchors",
   "theme",
   "seed"
@@ -61,6 +67,12 @@ function legacyRootToDomains(state: UnknownRecord): UnknownRecord {
       money: record(domains.money ?? state.money),
       childGrowth: record(domains.childGrowth ?? findLegacyChildGrowth(state)),
       faith: record(domains.faith ?? state.faith),
+      health: record(domains.health ?? state.health),
+      pattern: record(domains.pattern ?? state.pattern),
+      social: record(domains.social ?? state.social),
+      therapy: record(domains.therapy ?? state.therapy),
+      vision: record(domains.vision ?? state.vision),
+      environment: record(domains.environment ?? state.environment),
       weeklyAnchors: record(domains.weeklyAnchors ?? state.weeklyAnchors)
     }
   };

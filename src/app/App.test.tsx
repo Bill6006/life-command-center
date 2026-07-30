@@ -38,6 +38,81 @@ describe("application shell", () => {
     expect(await screen.findByText("Your state stays yours.")).toBeInTheDocument();
   });
 
+  it("keeps an explicit domain deep link instead of replacing it with the saved tab", async () => {
+    const root = createBlankAppState();
+    root.settings.activeTab = "today";
+    window.localStorage.setItem(STORAGE_KEYS.primary, JSON.stringify(root));
+    window.location.hash = "#/health";
+
+    render(<App />);
+
+    expect(
+      await screen.findByRole("heading", { name: "Match the plan to current readiness." })
+    ).toBeInTheDocument();
+    expect(window.location.hash).toBe("#/health");
+  });
+
+  it("renders every planned domain through the authoritative navigation", async () => {
+    render(<App />);
+    await screen.findByText("Saved locally");
+    const navigation = within(screen.getByRole("navigation", { name: "Command center areas" }));
+    const screens = [
+      ["Health", "Match the plan to current readiness."],
+      ["Pattern", "Separate timing, effects, and uncertainty."],
+      ["Therapy", "Name the state without turning it into a verdict."],
+      ["Azure", "Turn practice into defensible proof."],
+      ["Father", "Notice, connect, teach, and repair."],
+      ["Faith", "Keep the next faithful action visible."],
+      ["Money", "See the next useful financial decision."],
+      ["Love/Social", "Choose presence over pressure."],
+      ["Week", "Protect direction from daily noise."],
+      ["Vision", "Keep direction visible without forcing urgency."]
+    ] as const;
+
+    for (const [tab, heading] of screens) {
+      fireEvent.click(navigation.getByRole("button", { name: tab }));
+      expect(await screen.findByRole("heading", { name: heading })).toBeInTheDocument();
+    }
+  });
+
+  it("persists a domain input across an application reload", async () => {
+    window.location.hash = "#/health";
+    const first = render(<App />);
+    await screen.findByText("Saved locally");
+    fireEvent.change(
+      screen.getByRole("combobox", { name: "Energy 0–10 · unknown is separate" }),
+      { target: { value: "7" } }
+    );
+    await waitFor(() =>
+      expect(
+        screen.getByRole("combobox", { name: "Energy 0–10 · unknown is separate" })
+      ).toHaveValue("7")
+    );
+    await waitFor(() => expect(screen.getByText("Autosave: saved")).toBeInTheDocument());
+    first.unmount();
+
+    render(<App />);
+    expect(
+      await screen.findByRole("combobox", { name: "Energy 0–10 · unknown is separate" })
+    ).toHaveValue("7");
+  });
+
+  it("connects the Work Win review queue to the shared durable state", async () => {
+    window.location.hash = "#/azure";
+    render(<App />);
+    await screen.findByText("Saved locally");
+    fireEvent.change(screen.getByRole("textbox", { name: "Technology" }), {
+      target: { value: "Synthetic platform" }
+    });
+    fireEvent.change(screen.getByRole("textbox", { name: "Action Private" }), {
+      target: { value: "Completed a synthetic troubleshooting step." }
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+
+    expect(await screen.findByText("1 local record(s)")).toBeInTheDocument();
+    expect(screen.getByText("Sensitive local details hidden in this review card.")).toBeInTheDocument();
+  });
+
   it("keeps Quick Mode separate from full guides", async () => {
     render(<App />);
     await screen.findByText("Saved locally");

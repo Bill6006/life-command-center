@@ -1085,6 +1085,445 @@ summary:focus-visible {
   font-size: 0.66rem;
 }
 
+.today-support-lanes button {
+  padding: 7px 10px;
+  color: var(--color-gold-bright);
+  border: 1px solid rgba(233, 174, 72, 0.28);
+  border-radius: 999px;
+  background: rgba(233, 174, 72, 0.07);
+  font: inherit;
+  font-size: 0.66rem;
+  cursor: pointer;
+}
+
+.domain-screen,
+.embedded-domain {
+  min-width: 0;
+  margin-top: 20px;
+  display: grid;
+  gap: 20px;
+}
+
+.embedded-domain {
+  padding-top: 4px;
+  scroll-margin-top: 18px;
+}
+
+.domain-hero,
+.domain-intelligence,
+.domain-section-card,
+.domain-rate-card,
+.weekly-focus-card,
+.work-wins-panel {
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+  box-shadow: var(--shadow-card);
+}
+
+.domain-hero {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+  border-color: var(--color-border-strong);
+  background:
+    radial-gradient(circle at 8% 18%, rgba(79, 164, 169, 0.15), transparent 18rem),
+    linear-gradient(135deg, rgba(233, 174, 72, 0.07), transparent 55%),
+    var(--color-panel);
+}
+
+.domain-monogram {
+  width: 94px;
+  height: 94px;
+  display: grid;
+  place-items: center;
+  color: var(--color-gold-bright);
+  border: 1px solid rgba(233, 174, 72, 0.33);
+  border-radius: 50%;
+  background: rgba(5, 11, 20, 0.58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 0 11px rgba(233, 174, 72, 0.025);
+}
+
+.domain-hero h1 {
+  margin: 7px 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.domain-hero > div:nth-child(2) > p,
+.domain-section-heading p,
+.domain-intelligence p,
+.weekly-focus-card p,
+.work-wins-panel p,
+.domain-rate-card p {
+  color: var(--color-text-soft);
+  line-height: 1.55;
+}
+
+.domain-hero > div:nth-child(2) > p {
+  max-width: 760px;
+  margin: 0;
+}
+
+.domain-status-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.domain-status-row span {
+  padding: 6px 9px;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(5, 11, 20, 0.34);
+  font-size: 0.66rem;
+}
+
+.domain-boundary {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 13px 15px;
+  color: #d9e7e8;
+  border-left: 3px solid var(--color-teal);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: rgba(79, 164, 169, 0.075);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.domain-intelligence {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 0.85fr);
+  gap: 22px;
+  border-color: rgba(79, 164, 169, 0.31);
+  background:
+    linear-gradient(120deg, rgba(79, 164, 169, 0.09), transparent 52%),
+    var(--color-panel);
+}
+
+.domain-intelligence h2,
+.domain-section-heading h2,
+.weekly-focus-card h2,
+.work-wins-panel h2,
+.domain-rate-card h2 {
+  margin: 6px 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.domain-intelligence > div > p {
+  margin: 0;
+}
+
+.domain-intelligence dl,
+.domain-rate-card dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.domain-intelligence dl > div,
+.domain-rate-card dl > div {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(5, 11, 20, 0.42);
+}
+
+.domain-intelligence dt,
+.domain-rate-card dt {
+  color: var(--color-text-muted);
+  font-size: 0.65rem;
+}
+
+.domain-intelligence dd,
+.domain-rate-card dd {
+  margin: 5px 0 0;
+  font-size: 0.76rem;
+  font-weight: 720;
+  overflow-wrap: anywhere;
+  text-transform: capitalize;
+}
+
+.truth-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--color-text-muted) !important;
+  font-size: 0.7rem;
+}
+
+.domain-sections {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.domain-section-card {
+  padding: 25px;
+  align-self: start;
+}
+
+.domain-section-heading p {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.domain-field-grid {
+  min-width: 0;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.domain-field {
+  min-width: 0;
+  margin: 0;
+  padding: 13px;
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  color: var(--color-text-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(5, 11, 20, 0.38);
+  font-size: 0.73rem;
+}
+
+.domain-field > span,
+.domain-field legend {
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.domain-field small,
+.domain-field p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.63rem;
+  line-height: 1.4;
+}
+
+.domain-field input,
+.domain-field select,
+.domain-field textarea,
+.work-win-form input,
+.work-win-form select,
+.work-win-form textarea,
+.weekly-focus-card select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 9px 10px;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: #07111f;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.domain-field textarea,
+.work-win-form textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.domain-field-toggle {
+  padding: 13px;
+}
+
+.domain-field-toggle legend {
+  padding: 0 4px;
+}
+
+.domain-field-toggle > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.domain-field-toggle button {
+  min-width: 0;
+  min-height: 38px;
+  padding: 6px 3px;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(5, 11, 20, 0.5);
+  font-size: 0.64rem;
+  cursor: pointer;
+}
+
+.domain-field-toggle button[data-selected="true"] {
+  color: #15120d;
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  font-weight: 750;
+}
+
+.private-chip {
+  margin-left: 6px;
+  padding: 2px 5px;
+  display: inline-block;
+  color: var(--color-teal);
+  border: 1px solid rgba(79, 164, 169, 0.28);
+  border-radius: 999px;
+  font-size: 0.54rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.weekly-focus-card {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.7fr) auto;
+  align-items: end;
+  gap: 16px;
+  border-color: rgba(233, 174, 72, 0.3);
+}
+
+.weekly-focus-card p {
+  margin: 0;
+}
+
+.weekly-focus-card label {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  color: var(--color-text-soft);
+  font-size: 0.72rem;
+}
+
+.focus-suggestion {
+  grid-column: 1 / -1;
+  padding-top: 13px;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 10px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.69rem;
+}
+
+.focus-suggestion strong {
+  color: var(--color-gold-bright);
+}
+
+.domain-rate-card,
+.work-wins-panel {
+  padding: 25px;
+}
+
+.domain-rate-card > p {
+  margin-bottom: 0;
+  font-size: 0.7rem;
+}
+
+.work-wins-panel .section-heading p {
+  max-width: 740px;
+  margin: 5px 0 0;
+  font-size: 0.76rem;
+}
+
+.work-win-form {
+  min-width: 0;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.work-win-form label {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  color: var(--color-text-soft);
+  font-size: 0.72rem;
+}
+
+.work-win-form .sensitivity-control {
+  padding: 10px 12px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: rgba(5, 11, 20, 0.36);
+}
+
+.work-win-form .sensitivity-control input {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  padding: 0;
+  accent-color: var(--color-gold);
+}
+
+.work-win-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.work-win-queue {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.work-win-queue article,
+.blank-callout {
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(5, 11, 20, 0.38);
+}
+
+.work-win-queue span {
+  color: var(--color-teal);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+}
+
+.work-win-queue h3 {
+  margin: 7px 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.work-win-queue p,
+.blank-callout {
+  margin-bottom: 0;
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
 .sheet-backdrop {
   padding: 20px;
   position: fixed;
@@ -1327,6 +1766,20 @@ footer {
 }
 
 @media (max-width: 900px) {
+  .domain-sections,
+  .domain-intelligence {
+    grid-template-columns: 1fr;
+  }
+
+  .weekly-focus-card {
+    grid-template-columns: 1fr minmax(220px, 0.65fr);
+  }
+
+  .weekly-focus-card .button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
   .screen-grid {
     grid-template-columns: 1fr;
   }
@@ -1425,6 +1878,63 @@ footer {
   .today-command-screen {
     margin-top: 14px;
     gap: 14px;
+  }
+
+  .domain-screen,
+  .embedded-domain {
+    margin-top: 14px;
+    gap: 14px;
+  }
+
+  .domain-hero {
+    padding: 24px 20px;
+    grid-template-columns: 1fr;
+    gap: 21px;
+    border-radius: 22px;
+  }
+
+  .domain-monogram {
+    width: 76px;
+    height: 76px;
+  }
+
+  .domain-hero h1 {
+    font-size: clamp(2rem, 10.5vw, 2.8rem);
+  }
+
+  .domain-intelligence,
+  .domain-section-card,
+  .domain-rate-card,
+  .weekly-focus-card,
+  .work-wins-panel {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .domain-intelligence dl,
+  .domain-rate-card dl,
+  .domain-field-grid,
+  .work-win-form,
+  .work-win-queue,
+  .weekly-focus-card {
+    grid-template-columns: 1fr;
+  }
+
+  .domain-field-toggle > div {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .focus-suggestion {
+    grid-template-columns: 1fr;
+  }
+
+  .work-win-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .work-win-actions .button {
+    width: 100%;
   }
 
   .today-hero {

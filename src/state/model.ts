@@ -27,6 +27,12 @@ export interface DomainState extends UnknownRecord {
   money: UnknownRecord;
   childGrowth: UnknownRecord;
   faith: UnknownRecord;
+  health: UnknownRecord;
+  pattern: UnknownRecord;
+  social: UnknownRecord;
+  therapy: UnknownRecord;
+  vision: UnknownRecord;
+  environment: UnknownRecord;
   weeklyAnchors: UnknownRecord;
 }
 
@@ -58,6 +64,12 @@ export function createBlankAppState(): AppState {
       money: {},
       childGrowth: {},
       faith: {},
+      health: {},
+      pattern: {},
+      social: {},
+      therapy: {},
+      vision: {},
+      environment: {},
       weeklyAnchors: {}
     },
     logs: [],

@@ -30,6 +30,12 @@ export const domainStateSchema = z
     money: unknownRecordSchema.default({}),
     childGrowth: unknownRecordSchema.default({}),
     faith: unknownRecordSchema.default({}),
+    health: unknownRecordSchema.default({}),
+    pattern: unknownRecordSchema.default({}),
+    social: unknownRecordSchema.default({}),
+    therapy: unknownRecordSchema.default({}),
+    vision: unknownRecordSchema.default({}),
+    environment: unknownRecordSchema.default({}),
     weeklyAnchors: unknownRecordSchema.default({})
   })
   .passthrough();

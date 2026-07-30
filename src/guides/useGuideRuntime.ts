@@ -103,10 +103,7 @@ export function useGuideRuntime() {
         setRootState(state);
         setGuideState(loadedGuides);
         setSaveStatus("saved");
-        if (
-          isTabId(state.settings.activeTab) &&
-          window.location.hash === initialHashRef.current
-        ) {
+        if (isTabId(state.settings.activeTab) && initialHashRef.current === "") {
           navigateToTab(state.settings.activeTab);
         }
       })

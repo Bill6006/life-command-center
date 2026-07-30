@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { GuideTarget } from "../../guides/GuideExperience";
 import type { useGuideRuntime } from "../../guides/useGuideRuntime";
 import type { DayRecord } from "../../state/model";
+import { EnvironmentPanel } from "../domains";
 import { buildTodayCommand } from "./command";
 import {
   coverMinimumWinsFromMove,
@@ -458,12 +459,21 @@ export function TodayScreen({ runtime }: { runtime: Runtime }) {
       </section>
 
       <section className="today-support-lanes" aria-label="Today support lanes">
-        {["Daily Checks", "Morning Start", "Sleep / Recovery", "Environment", "Night review"].map(
-          (label) => (
-            <span key={label}>{label}</span>
-          )
-        )}
+        {["Daily Checks", "Morning Start", "Sleep / Recovery"].map((label) => (
+          <span key={label}>{label}</span>
+        ))}
+        <button
+          type="button"
+          onClick={() =>
+            document.getElementById("environment-panel")?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          Environment
+        </button>
+        <span>Night review</span>
       </section>
+
+      <EnvironmentPanel runtime={runtime} />
 
       {runtime.currentStep?.targetId !== "guide-target-core-state" && (
         <GuideTarget step={runtime.currentStep} activeTab="today" />

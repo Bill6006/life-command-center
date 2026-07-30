@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore } from "react";
 import { APP_TIME_ZONE, APP_TIME_ZONE_LABEL, createBlankShellState } from "../domain/defaults";
+import { DomainScreen, isDomainTab } from "../features/domains";
 import { TodayScreen } from "../features/today/TodayScreen";
 import { GuideControls, GuideOverlay, GuideTarget } from "../guides/GuideExperience";
 import { useGuideRuntime } from "../guides/useGuideRuntime";
@@ -185,7 +186,7 @@ export function App() {
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Local-first rebuild · Phase 6</small>
+            <small>Local-first rebuild · Phase 7</small>
           </span>
         </a>
         <div className="date-block">
@@ -201,11 +202,11 @@ export function App() {
       <main className="main-content">
         <FirstRunNotice />
         <GuideControls runtime={guides} />
-        {activeTab === "today" ? (
-          <TodayScreen runtime={guides} />
-        ) : (
+        {activeTab === "today" ? <TodayScreen runtime={guides} /> : null}
+        {isDomainTab(activeTab) ? <DomainScreen activeTab={activeTab} runtime={guides} /> : null}
+        {activeTab === "data" ? (
           <ScreenFoundation activeTab={activeTab} currentGuideStep={guides.currentStep} />
-        )}
+        ) : null}
         <FoundationDetails />
       </main>
 
@@ -235,7 +236,7 @@ export function App() {
 
       <footer>
         <span>Life Command Center</span>
-        <span>Local-first command layer · build 0.6</span>
+        <span>Local-first command layer · build 0.7</span>
       </footer>
     </div>
   );
