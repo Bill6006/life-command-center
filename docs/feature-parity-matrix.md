@@ -73,6 +73,6 @@ only when behavior has both an implementation and an objective parity test.
 | Action lifecycle and temporary constraint feedback | Verified | [Phase 5 report](reports/phase-5.md) |
 | Exactly three versioned Minimum Wins | Verified | [Phase 5 report](reports/phase-5.md) |
 | Fitbod exact-programming boundary | Verified boundary | One readiness-ladder candidate; no exercise prescription |
-| Forecast, capacity, and personal optimization | Contracted | Phase 6 |
+| Forecast, capacity, Weekly Focus, personal optimization, and maturity truth | Verified | [Phase 6 report](reports/phase-6.md) |
 | Domain screens | Contracted | Phase 7 |
 | Exports, diagnostics, and final acceptance | Contracted | Phase 8 |

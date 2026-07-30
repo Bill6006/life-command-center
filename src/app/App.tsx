@@ -185,7 +185,7 @@ export function App() {
           <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="44" height="44" />
           <span>
             <strong>Life Command Center</strong>
-            <small>Private rebuild · Phase 5</small>
+            <small>Local-first rebuild · Phase 6</small>
           </span>
         </a>
         <div className="date-block">
@@ -235,7 +235,7 @@ export function App() {
 
       <footer>
         <span>Life Command Center</span>
-        <span>Local-first command layer · build 0.5</span>
+        <span>Local-first command layer · build 0.6</span>
       </footer>
     </div>
   );

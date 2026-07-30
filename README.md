@@ -18,8 +18,8 @@ analytics, telemetry, advertising, cloud sync, or remote user-state logging.
 
 The public application is deployed only through the repository's GitHub Pages
 workflow after the full CI, build-output privacy, and reachable-history audit
-gates pass. Public deployment is currently blocked because GitHub still serves
-an unreachable retained object from the deleted predecessor repository.
+gates pass. The verified permanent URL is
+`https://bill6006.github.io/life-command-center/`.
 
 ## Local development
 
@@ -44,3 +44,8 @@ Phase 5 adds the evidence-aware Today command layer, exactly three versioned
 Minimum Wins, current-context safety, structured temporary constraints, and a
 single active move with pause, completion, undo, alternatives, and later effect
 checks.
+
+Phase 6 adds the deterministic Peak Forecast path, evidence-qualified context,
+bottleneck and candidate gates, capacity lanes, authoritative Weekly Focus,
+bounded personal learning, independent maturity truth, and synthetic golden
+parity.
