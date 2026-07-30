@@ -31,3 +31,9 @@ desktop, and zoom-stress evidence before it can be marked complete.
   - [Vision](phase-7-vision.jpg)
   - [Environment](phase-7-environment.jpg)
   - [Work Wins](phase-7-work-wins.jpg)
+- Phase 8 deployed Data evidence, captured from a 412 × 915 logical CSS
+  viewport (397 × 882 page bitmap) after
+  [Pages deployment](https://github.com/Bill6006/life-command-center/actions/runs/30505909545)
+  passed:
+  - [Data and storage](phase-8-data.jpg)
+  - [On-demand diagnostics](phase-8-diagnostics.jpg)

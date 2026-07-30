@@ -1,16 +1,16 @@
 # Project Status
 
 - **Repository:** https://github.com/Bill6006/life-command-center
-- **Current phase:** Phase 8 — Data, exports, diagnostics, and acceptance
+- **Current phase:** Phase 9 — Visual polish and accessibility
 - **Current branch:** `main`
-- **Latest completed phase:** Phase 7 — Domain screens
-- **Current work in progress:** Phase 8 implementation is complete; full local gates and the first public Phase 8 deployment are next.
+- **Latest completed phase:** Phase 8 — Data, exports, diagnostics, and acceptance
+- **Current work in progress:** Phase 8 is complete and deployed; Phase 9 begins with the existing mobile-first and accessibility contracts intact.
 - **Retained-object deletion gate:** Passed. The deleted predecessor's retained commit and `.patch` targets both return 404 in unauthenticated requests.
-- **Test totals:** 163 tests across 32 files; 8 phase verifiers, production PWA build, and privacy gates are required
-- **Latest mobile screenshots:** [Phase 7 deployed domain evidence](docs/screenshots/README.md) — twelve blank-state screenshots from a 412 × 915 logical viewport
-- **Live preview:** https://bill6006.github.io/life-command-center/ — Phase 7 verified unauthenticated across 176 width/zoom/route combinations
-- **Next concrete action:** Run the complete Phase 8 repository, history, build, and privacy gates; then deploy and verify the permanent live URL.
-- **Last updated:** 2026-07-29 21:29 EDT
+- **Test totals:** 163 tests across 32 files; 8 phase verifiers, production PWA build, and privacy gates pass
+- **Latest mobile screenshots:** [Phase 8 deployed Data evidence](docs/screenshots/README.md) — blank Data and on-demand acceptance screens from a 412 × 915 logical viewport
+- **Live preview:** https://bill6006.github.io/life-command-center/ — Phase 8 verified unauthenticated and across all 16 required width/zoom combinations
+- **Next concrete action:** Begin Phase 9 visual polish and accessibility without changing the verified storage, export, diagnostic, domain, or intelligence contracts.
+- **Last updated:** 2026-07-29 21:43 EDT
 
 ## Monitoring
 
@@ -18,10 +18,11 @@
 - [Phase 0 issue](https://github.com/Bill6006/life-command-center/issues/1)
 - [Phase 1 issue](https://github.com/Bill6006/life-command-center/issues/2)
 - [Phase 7 issue](https://github.com/Bill6006/life-command-center/issues/8)
+- [Phase 8 issue](https://github.com/Bill6006/life-command-center/issues/9)
 - [Actions](https://github.com/Bill6006/life-command-center/actions)
-- [Repository CI #6](https://github.com/Bill6006/life-command-center/actions/runs/30503897673)
-- [Privacy Scan #6](https://github.com/Bill6006/life-command-center/actions/runs/30503897550)
-- [Pages deployment #7](https://github.com/Bill6006/life-command-center/actions/runs/30503897606)
+- [Repository CI — Phase 8](https://github.com/Bill6006/life-command-center/actions/runs/30505909560)
+- [Privacy Scan — Phase 8](https://github.com/Bill6006/life-command-center/actions/runs/30505909525)
+- [Pages deployment — Phase 8](https://github.com/Bill6006/life-command-center/actions/runs/30505909545)
 - [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
 
 ## Privacy status
@@ -31,10 +32,10 @@
 - Real backup or export tracked: no
 - Personal screenshots tracked: no
 - Local privacy scan: passed, including reachable Git history and build output
-- Remote privacy scan: [passed on Phase 7 code commit `c77d200`](https://github.com/Bill6006/life-command-center/actions/runs/30503897550)
-- Repository CI: [passed on Phase 7 code commit `c77d200`](https://github.com/Bill6006/life-command-center/actions/runs/30503897673)
-- Deployment enabled: yes; [GitHub Actions deployment #7](https://github.com/Bill6006/life-command-center/actions/runs/30503897606) passed on commit `c77d200936e4d724512186c6c01faabc8f1679c9`
-- Live deployment verification: base, script, stylesheet, manifest, both icons, service worker, Workbox runtime, every Phase 7 hash route, Android widths, and zoom-equivalent layouts passed without subpath 404s or horizontal page overflow
+- Remote privacy scan: [passed on Phase 8 code commit `dff446e`](https://github.com/Bill6006/life-command-center/actions/runs/30505909525)
+- Repository CI: [passed on Phase 8 code commit `dff446e`](https://github.com/Bill6006/life-command-center/actions/runs/30505909560)
+- Deployment enabled: yes; [GitHub Actions Phase 8 deployment](https://github.com/Bill6006/life-command-center/actions/runs/30505909545) passed on commit `dff446ec76aa13ea9e51e0cfdd99315fa7218d37`
+- Live deployment verification: base, script, stylesheet, manifest, both icons, service worker, Workbox runtime, Data route, Android widths, and zoom-equivalent layouts passed without subpath 404s or horizontal page/card overflow
 
 ## Phase history
 
@@ -48,6 +49,6 @@
 | Phase 5 — Today, Minimum Wins, and move lifecycle | Complete | [Report](docs/reports/phase-5.md), [tracking issue](https://github.com/Bill6006/life-command-center/issues/6) |
 | Phase 6 — Forecast, evidence, capacity, and learning | Complete | [Report](docs/reports/phase-6.md), [tracking issue](https://github.com/Bill6006/life-command-center/issues/7) |
 | Phase 7 — Domain screens | Complete | [Report](docs/reports/phase-7.md), [tracking issue](https://github.com/Bill6006/life-command-center/issues/8) |
-| Phase 8 — Data, exports, diagnostics, and acceptance | In progress | [Tracking issue](https://github.com/Bill6006/life-command-center/issues/9) |
-| Phase 9 — Visual polish and accessibility | Not started | — |
+| Phase 8 — Data, exports, diagnostics, and acceptance | Complete | [Report](docs/reports/phase-8.md), [tracking issue](https://github.com/Bill6006/life-command-center/issues/9) |
+| Phase 9 — Visual polish and accessibility | In progress | [Tracking issue](https://github.com/Bill6006/life-command-center/issues/10) |
 | Phase 10 — Privacy audit, deployment, and cutover | Not started | — |

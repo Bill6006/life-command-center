@@ -75,4 +75,4 @@ only when behavior has both an implementation and an objective parity test.
 | Fitbod exact-programming boundary | Verified boundary | One readiness-ladder candidate; no exercise prescription |
 | Forecast, capacity, Weekly Focus, personal optimization, and maturity truth | Verified | [Phase 6 report](reports/phase-6.md) |
 | Domain screens | Verified | [Phase 7 report](reports/phase-7.md) |
-| Exports, diagnostics, and final acceptance | Implemented; deployment evidence pending | [Phase 8 report](reports/phase-8.md) |
+| Exports, diagnostics, and final acceptance | Verified | [Phase 8 report](reports/phase-8.md) |
