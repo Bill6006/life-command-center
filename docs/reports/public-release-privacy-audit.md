@@ -7,11 +7,12 @@ GitHub Pages application is live. Its clean reachable history and exact paused
 Phase 6 working checkpoint were restored from an independently verified
 recovery package.
 
-The deleted predecessor repository still has two unauthenticated GitHub cached
-views: the retained commit page and its patch representation. GitHub Support
-purging remains required, but on 2026-07-29 the owner explicitly authorized
-publishing the independently audited replacement repository without waiting
-for that separate GitHub-hosted object to be purged.
+Immediately after deletion, the predecessor repository still had two
+unauthenticated GitHub cached views: the retained commit page and its patch
+representation. On 2026-07-29 the owner explicitly authorized publishing the
+independently audited replacement while that separate GitHub-hosted purge was
+pending. A later fresh unauthenticated retest returned 404 for both targets, so
+the retained-object deletion gate is now satisfied.
 
 ## Recovery and recreation evidence
 
@@ -110,16 +111,16 @@ The privacy review covers:
 The build verifier checks scripts, styles, manifest, icons, service-worker
 precache entries, start URL, scope, and predecessor-path absence.
 
-## Retained-object follow-up
+## Retained-object deletion verification
 
-Deletion removed the old repository from the repository API, but did not purge
-the retained commit and patch views. The test targets and results are stored
-only in the external recovery package so the replacement repository does not
-publish a discovery path to the sensitive cached representation.
+Deletion removed the old repository from the repository API before GitHub's
+retained commit and patch views disappeared. The test targets and chronological
+results are stored only in the external recovery package so the replacement
+repository does not publish a discovery path to the formerly sensitive
+representation.
 
-This is a GitHub-hosted object outside the replacement repository's reachable
-refs. Local history rewriting, pruning, repository deletion, and replacement
-creation cannot remove it.
+The final unauthenticated HTTP retest returned 404 for both the retained commit
+and `.patch` targets.
 
 ## Release gate
 
@@ -138,6 +139,9 @@ script, stylesheet, manifest, 192- and 512-pixel icons, service worker, and
 Workbox assets. The `#/data` route worked at 412 × 915 with no horizontal page
 overflow.
 
-GitHub Support purging of the predecessor's cached views remains a separate
-privacy follow-up. Phase 6 resumed from its restored passing checkpoint after
-the replacement deployment was verified.
+Phase 6 completed on commit `dd71fb6f93e9982236c5f1b463abd3baf503ed40`.
+[Repository CI #4](https://github.com/Bill6006/life-command-center/actions/runs/30501633292),
+[Privacy Scan #4](https://github.com/Bill6006/life-command-center/actions/runs/30501633146),
+and [Pages #5](https://github.com/Bill6006/life-command-center/actions/runs/30501633368)
+all passed on that exact commit. The live 0.6 application and repository
+subpath assets were then reverified at Android dimensions.

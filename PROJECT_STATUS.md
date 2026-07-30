@@ -5,12 +5,12 @@
 - **Current branch:** `main`
 - **Latest completed phase:** Phase 6 — Peak Forecast, evidence, capacity, and personal learning
 - **Current work in progress:** Phase 6 is complete; Phase 7 domain-screen work has not started.
-- **Known external issue:** GitHub still serves an unreachable pre-rewrite commit and patch under the deleted predecessor namespace. The owner explicitly authorized publishing the independently audited replacement while a GitHub Support purge remains outstanding.
+- **Retained-object deletion gate:** Passed. The deleted predecessor's retained commit and `.patch` targets both return 404 in unauthenticated requests.
 - **Test totals:** 144 tests across 28 files; 6 phase verifiers, production PWA build, and privacy gates pass
 - **Latest mobile screenshots:** [Phase 5 Can't now sheet](docs/screenshots/phase-5-cant-now-sheet.jpg) — 412 × 915
 - **Live preview:** https://bill6006.github.io/life-command-center/ — verified unauthenticated at 412 × 915
 - **Next concrete action:** Begin Phase 7 with Health and recovery, preserving state, guide, export, evidence, and forecast contracts.
-- **Last updated:** 2026-07-29 20:03 EDT
+- **Last updated:** 2026-07-29 20:10 EDT
 
 ## Monitoring
 
@@ -18,9 +18,9 @@
 - [Phase 0 issue](https://github.com/Bill6006/life-command-center/issues/1)
 - [Phase 1 issue](https://github.com/Bill6006/life-command-center/issues/2)
 - [Actions](https://github.com/Bill6006/life-command-center/actions)
-- [Repository CI #2](https://github.com/Bill6006/life-command-center/actions/runs/30500699263)
-- [Privacy Scan #2](https://github.com/Bill6006/life-command-center/actions/runs/30500699282)
-- [Pages deployment #3](https://github.com/Bill6006/life-command-center/actions/runs/30500884086)
+- [Repository CI #4](https://github.com/Bill6006/life-command-center/actions/runs/30501633292)
+- [Privacy Scan #4](https://github.com/Bill6006/life-command-center/actions/runs/30501633146)
+- [Pages deployment #5](https://github.com/Bill6006/life-command-center/actions/runs/30501633368)
 - [Public-release privacy audit](docs/reports/public-release-privacy-audit.md)
 
 ## Privacy status
@@ -30,9 +30,9 @@
 - Real backup or export tracked: no
 - Personal screenshots tracked: no
 - Local privacy scan: passed, including reachable Git history and build output
-- Remote privacy scan: [passed on public-release commit `ae2030b`](https://github.com/Bill6006/life-command-center/actions/runs/30500699282)
-- Repository CI: [passed on public-release commit `ae2030b`](https://github.com/Bill6006/life-command-center/actions/runs/30500699263)
-- Deployment enabled: yes; GitHub Actions deployment #3 passed on commit `ae2030bef98579010ef933efaa0295ccf3d35917`
+- Remote privacy scan: [passed on Phase 6 commit `dd71fb6`](https://github.com/Bill6006/life-command-center/actions/runs/30501633146)
+- Repository CI: [passed on Phase 6 commit `dd71fb6`](https://github.com/Bill6006/life-command-center/actions/runs/30501633292)
+- Deployment enabled: yes; [GitHub Actions deployment #5](https://github.com/Bill6006/life-command-center/actions/runs/30501633368) passed on commit `dd71fb6f93e9982236c5f1b463abd3baf503ed40`
 - Live deployment verification: base, script, stylesheet, manifest, both icons, service worker, Workbox runtime, hash route, and Android layout passed without subpath 404s or horizontal page overflow
 
 ## Phase history
