@@ -17,7 +17,8 @@
     "guides:verify": "node scripts/verify-phase4.mjs",
     "today:verify": "node scripts/verify-phase5.mjs",
     "intelligence:verify": "node scripts/verify-phase6.mjs",
-    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run intelligence:verify && npm run privacy:scan && npm run privacy:public",
+    "domains:verify": "node scripts/verify-phase7.mjs",
+    "ci": "npm run privacy:scan && npm run contracts:verify && npm run test && npm run build && npm run shell:verify && npm run storage:verify && npm run guides:verify && npm run today:verify && npm run intelligence:verify && npm run domains:verify && npm run privacy:scan && npm run privacy:public",
     "ci:phase0": "npm run privacy:scan"
   },
   "dependencies": {
