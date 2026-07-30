@@ -61,7 +61,14 @@ a {
 }
 
 button {
+  min-height: 44px;
   font: inherit;
+}
+
+summary {
+  min-height: 44px;
+  padding-block: 12px;
+  cursor: pointer;
 }
 
 button:focus-visible,
@@ -76,6 +83,7 @@ textarea:focus-visible,
 }
 
 .skip-link {
+  min-height: 44px;
   padding: 10px 14px;
   position: fixed;
   top: max(8px, env(safe-area-inset-top));
@@ -127,6 +135,7 @@ textarea:focus-visible,
 }
 
 .brand {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 13px;
@@ -1390,7 +1399,7 @@ textarea:focus-visible,
 .weekly-focus-card select {
   width: 100%;
   min-width: 0;
-  min-height: 42px;
+  min-height: 44px;
   padding: 9px 10px;
   color: var(--color-text);
   border: 1px solid var(--color-border);
