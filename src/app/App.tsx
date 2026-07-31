@@ -65,8 +65,57 @@ function FirstRunNotice() {
   );
 }
 
+function dayHasWorkspaceContent(day: unknown) {
+  if (!isUnknownRecord(day)) return false;
+  if (
+    Object.keys(day).some(
+      (key) => !["_updatedAt", "_inputUpdatedAt", "today"].includes(key)
+    )
+  ) {
+    return true;
+  }
+
+  const today = day.today;
+  if (!isUnknownRecord(today)) return false;
+  if (today.context && today.context !== "home") return true;
+  if (today.activeMove) return true;
+  for (const key of ["moveHistory", "constraints", "dismissedCandidateIds"]) {
+    if (Array.isArray(today[key]) && today[key].length > 0) return true;
+  }
+  if (
+    isUnknownRecord(today.evidence) &&
+    Object.values(today.evidence).some(
+      (entry) =>
+        isUnknownRecord(entry) &&
+        (entry.value !== null || entry.state !== "unknown")
+    )
+  ) {
+    return true;
+  }
+  return (
+    Array.isArray(today.minimumWinPlans) &&
+    today.minimumWinPlans.some(
+      (plan) =>
+        isUnknownRecord(plan) &&
+        Array.isArray(plan.wins) &&
+        plan.wins.some(
+          (win) =>
+            isUnknownRecord(win) &&
+            (win.status !== "open" ||
+              Boolean(win.proofSource) ||
+              Boolean(win.completedAt))
+        )
+    )
+  );
+}
+
 function hasWorkspaceContent(state: AppState) {
-  if (Object.keys(state.days).length > 0 || state.logs.length > 0) return true;
+  if (
+    Object.values(state.days).some(dayHasWorkspaceContent) ||
+    state.logs.length > 0
+  ) {
+    return true;
+  }
   if (Object.keys(state._domainUpdatedAt).length > 0) return true;
   if (
     Object.values(state.domains).some(

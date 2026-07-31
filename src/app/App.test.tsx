@@ -20,6 +20,10 @@ describe("application shell", () => {
     expect(
       await screen.findByText("This rebuild starts empty on purpose.")
     ).toBeInTheDocument();
+    expect(await screen.findByText("Saved locally")).toBeInTheDocument();
+    expect(
+      screen.getByText("This rebuild starts empty on purpose.")
+    ).toBeInTheDocument();
     const skipLink = screen.getByRole("link", { name: "Skip to main content" });
     expect(skipLink).toHaveAttribute(
       "href",
