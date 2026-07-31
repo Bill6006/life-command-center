@@ -35,6 +35,87 @@ describe("state schemas and migrations", () => {
     expect(migrated.unknownRoot).toEqual({ nested: true });
   });
 
+  it("wraps the legacy daily minimum-wins record without changing its evidence", () => {
+    const legacyMinimumWins = {
+      date: "2040-01-02",
+      version: "today_win_library_precise_caffeine_sync_v9",
+      createdAt: "2040-01-02T12:00:00.000Z",
+      context: { capacityScore: 42 },
+      items: [
+        { id: "synthetic-manual", label: "Synthetic manual win" },
+        { id: "synthetic-covered", label: "Synthetic covered win" },
+        { id: "synthetic-open", label: "Synthetic open win" }
+      ],
+      status: {
+        "synthetic-manual": {
+          status: "done",
+          manual: true,
+          completedAt: "2040-01-02T14:00:00.000Z",
+          source: "manual_check"
+        },
+        "synthetic-covered": {
+          status: "covered",
+          actionId: "synthetic-action",
+          coveredAt: "2040-01-02T15:00:00.000Z",
+          reason: "same_family"
+        }
+      }
+    };
+
+    const migrated = migrateState({
+      settings: {},
+      days: {
+        "2040-01-02": {
+          minimumWins: legacyMinimumWins
+        }
+      }
+    });
+
+    expect(migrated.days["2040-01-02"].minimumWins).toEqual([
+      legacyMinimumWins
+    ]);
+  });
+
+  it("does not manufacture minimum wins when the legacy field is missing", () => {
+    const migrated = migrateState({
+      settings: {},
+      days: {
+        "2040-01-02": {
+          energy: 5
+        }
+      }
+    });
+
+    expect(migrated.days["2040-01-02"].minimumWins).toBeUndefined();
+  });
+
+  it("preserves the current minimum-wins array unchanged", () => {
+    const currentMinimumWins = [
+      {
+        id: "synthetic-current",
+        status: "manual-done",
+        completedAt: "2040-01-02T16:00:00.000Z"
+      }
+    ];
+
+    const migrated = migrateState({
+      schemaVersion: CURRENT_SCHEMA_VERSION,
+      settings: {},
+      days: {
+        "2040-01-02": {
+          minimumWins: currentMinimumWins
+        }
+      },
+      domains: {},
+      logs: [],
+      _domainUpdatedAt: {}
+    });
+
+    expect(migrated.days["2040-01-02"].minimumWins).toEqual(
+      currentMinimumWins
+    );
+  });
+
   it("recognizes the legacy child-growth shape without embedding its protected key", () => {
     const migrated = migrateState({
       settings: {},

@@ -56,6 +56,37 @@ function record(value: unknown): UnknownRecord {
   return isUnknownRecord(value) ? value : {};
 }
 
+function isLegacyMinimumWinsRecord(value: unknown): value is UnknownRecord {
+  return isUnknownRecord(value) && Array.isArray(value.items);
+}
+
+function normalizeLegacyMinimumWins(state: UnknownRecord): UnknownRecord {
+  const days = record(state.days);
+  let changed = false;
+  const normalizedDays: UnknownRecord = {};
+
+  for (const [dateKey, value] of Object.entries(days)) {
+    if (!isUnknownRecord(value) || !isLegacyMinimumWinsRecord(value.minimumWins)) {
+      normalizedDays[dateKey] = value;
+      continue;
+    }
+
+    /*
+     * The protected legacy app stored one daily minimum-wins record containing
+     * metadata, items, and a parallel status map. Keep that record intact as a
+     * single compatibility entry: flattening its items would detach manual
+     * completion and automatic coverage evidence from their keyed statuses.
+     */
+    normalizedDays[dateKey] = {
+      ...value,
+      minimumWins: [value.minimumWins]
+    };
+    changed = true;
+  }
+
+  return changed ? { ...state, days: normalizedDays } : state;
+}
+
 function legacyRootToDomains(state: UnknownRecord): UnknownRecord {
   const domains = record(state.domains);
   return {
@@ -129,6 +160,15 @@ function normalizeCurrentShape(state: UnknownRecord): UnknownRecord {
 }
 
 export const migrationRegistry: readonly Migration[] = [
+  {
+    id: "legacy-minimum-wins-array",
+    applies: (state) =>
+      Object.values(record(state.days)).some(
+        (day) =>
+          isUnknownRecord(day) && isLegacyMinimumWinsRecord(day.minimumWins)
+      ),
+    run: normalizeLegacyMinimumWins
+  },
   {
     id: "legacy-root-domains",
     applies: (state) => !isUnknownRecord(state.domains),
