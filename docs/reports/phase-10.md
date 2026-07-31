@@ -12,24 +12,24 @@ not read, uploaded, committed, or imported during this phase.
 
 ## Final privacy checkpoint
 
-The complete audit checkpoint covered:
+The retained artifact checkpoint covered:
 
-- 25 reachable commits;
-- 290 unique reachable history blobs;
-- 167 current repository files;
-- 9 production build files;
 - all 40 GitHub Actions run outcomes;
 - all 25 retained Actions archives: 13 `phase-evidence` and 12 Pages archives;
   and
 - 264 archive files after opening every ZIP and extracting every Pages payload.
 
 Every retained artifact SHA-256 matched the digest recorded by GitHub. The
-combined artifact, repository, history, and build audit passed. Commit author
-and committer identities use GitHub noreply addresses. The expanded final
-Privacy Scan log reported 167 repository/build files checked and contained no
-email, phone, SSN, private-key, or credential pattern. The final Repository CI
-and Pages runs succeeded; their exact evidence and Pages payload artifacts were
-included in the archive audit.
+combined artifact, repository, history, and build audit passed. It was not
+needlessly repeated after the healthy Phase 10 workflows.
+
+The Phase 10 remote Privacy Scan for commit
+[`b993880`](https://github.com/Bill6006/life-command-center/commit/b993880a08f948c8e63198866b8ba5347657c127)
+then rebuilt the production PWA and checked 183 repository/build files. Its
+public audit passed across 26 reachable commits, 305 unique history blobs, 174
+current files, 9 build files, and 0 artifact files. Commit author and committer
+identities use GitHub noreply addresses. No email, phone, SSN, private-key, or
+credential pattern was reported.
 
 The protected legacy source remains outside Git as the unchanged fallback. Its
 local file size and SHA-256 still match the recorded fingerprint. No real
@@ -52,10 +52,29 @@ files.
 
 ## Deployment evidence
 
-Phase 10 workflow and final-live links will be added after the cutover package
-passes CI and deploys. Phase 9 already verified all 12 live routes across 228
-mobile/zoom/desktop layout checks, all-route touch and label checks, keyboard
-focus behavior, PWA assets, and sanitized Android/desktop screenshots.
+- [Repository CI](https://github.com/Bill6006/life-command-center/actions/runs/30509786095):
+  passed 170 tests across 34 files, the production PWA build, all 10 phase
+  verifiers, and both privacy gates on `b993880`.
+- [Privacy Scan](https://github.com/Bill6006/life-command-center/actions/runs/30509786128):
+  passed the exact production build plus current-tree and reachable-history
+  checks on `b993880`.
+- [Pages deployment](https://github.com/Bill6006/life-command-center/actions/runs/30509786104):
+  reported success with Pages build version
+  `b993880a08f948c8e63198866b8ba5347657c127` and environment URL
+  https://bill6006.github.io/life-command-center/.
+
+The permanent URL was opened from an isolated unauthenticated browser at a
+412 × 915 Android viewport. Today and Data loaded from the repository subpath
+without console errors or horizontal page/card/sheet/dialog overflow. The base
+page, manifest, service worker, Workbox runtime, both icons, hashed application
+script, stylesheet, and Workbox window helper all returned 200. The manifest
+retains `/life-command-center/#/today` as its start URL and
+`/life-command-center/` as its scope.
+
+The annotated
+[`phase-10-automated-baseline`](https://github.com/Bill6006/life-command-center/tree/phase-10-automated-baseline)
+tag is the rollback checkpoint for the automated Phase 10 closure. It preserves
+the final evidence state with `b993880` as the implementation ancestor.
 
 ## External confirmation gate
 
@@ -67,5 +86,6 @@ The following remain deliberately incomplete:
 - confirming ordinary real-world use; and
 - authorizing retirement of the old app.
 
-Issue #11 and the milestone remain open. GREEN only after explicit owner
-confirmation of those items.
+Issue #11 and the milestone remain open. The automated Phase 10 scope is
+complete, but GREEN is prohibited until explicit owner confirmation of those
+items.
