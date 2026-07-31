@@ -45,9 +45,17 @@ user state and unknown extension fields.
   operation requires immediate durability.
 - Focused fields and pending range drafts are committed before a save boundary.
 - Primary local storage is written first.
+- Primary local storage is read back byte-for-byte, then IndexedDB active state
+  is written and read back as the same canonical JSON. A save is not reported
+  as successful unless both active copies verify.
 - Secondary writes follow after approximately 200 ms for local-file execution
   or 900 ms for hosted execution.
 - Secondary writes update recovery snapshots, day caches, and IndexedDB.
+- Last-good and session copies are additional recovery candidates, not active
+  state. If a large history fits once in localStorage but Android's fixed
+  localStorage quota rejects another full copy, the verified primary and
+  IndexedDB active save remains successful and the app reports a degraded
+  recovery-copy warning. Existing recovery copies are not deleted.
 - `pagehide`, `beforeunload`, and hidden `visibilitychange` commit drafts, save,
   and flush best-effort secondary writes.
 - A save reports failure visibly. It cannot continue by pretending empty state
@@ -125,7 +133,10 @@ Restore supports **Replace**, **Merge**, and **Cancel**.
    active state.
 3. Show a summary and ask for Replace, Merge, or Cancel.
 4. On Cancel, perform zero durable writes.
-5. Capture an exact pre-import rollback snapshot and signatures.
+5. Capture an exact pre-import rollback snapshot in the IndexedDB
+   `pre_import::` namespace. Keep only its transaction ID and record key in
+   localStorage so an existing large workspace is not duplicated into the
+   smaller synchronous quota.
 6. Create a transaction ID and pending marker.
 7. For Merge, apply the merge/anti-rollback rules. For Replace, use the
    prepared import while preserving schema-allowed unknown fields.
@@ -138,6 +149,9 @@ Restore supports **Replace**, **Merge**, and **Cancel**.
 11. During boot, verify primary, IndexedDB, and memory against the pending
     transaction signature.
 12. Mark success and clear pending markers only after reload verification.
+13. Delete the temporary IndexedDB pre-import snapshot after success or exact
+    rollback. A legacy pending session that embedded its snapshot in
+    localStorage remains readable for compatibility.
 13. On any failure, restore the exact pre-import snapshot to both stores,
     verify rollback, clear/annotate the transaction, and show readable error
     details.

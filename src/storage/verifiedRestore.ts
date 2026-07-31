@@ -15,10 +15,15 @@ interface RestoreMarker {
   startedAt: string;
 }
 
-interface RestoreSession {
+interface RestoreSnapshot {
   transactionId: string;
   primary: string | null;
   indexedActive: AppState | null;
+}
+
+interface RestoreSessionReference {
+  transactionId: string;
+  snapshotKey: string;
 }
 
 export interface RestoreResult {
@@ -29,6 +34,10 @@ export interface RestoreResult {
 
 function transactionId() {
   return `restore-${Date.now().toString(36)}-${crypto.randomUUID()}`;
+}
+
+function preImportKey(id: string) {
+  return `${INDEXED_DB_KEYS.preImportPrefix}${id}`;
 }
 
 export class VerifiedRestoreCoordinator {
@@ -42,7 +51,7 @@ export class VerifiedRestoreCoordinator {
     return prepareBackupText(text);
   }
 
-  private async exactSnapshot(id: string): Promise<RestoreSession> {
+  private async exactSnapshot(id: string): Promise<RestoreSnapshot> {
     return {
       transactionId: id,
       primary: this.local.getItem(STORAGE_KEYS.primary),
@@ -50,15 +59,32 @@ export class VerifiedRestoreCoordinator {
     };
   }
 
-  private async rollbackExact(session: RestoreSession): Promise<void> {
-    if (session.primary === null) this.local.removeItem(STORAGE_KEYS.primary);
-    else this.local.setItem(STORAGE_KEYS.primary, session.primary);
-
-    if (session.indexedActive === null) await this.indexed.delete(INDEXED_DB_KEYS.active);
-    else await this.indexed.put(INDEXED_DB_KEYS.active, session.indexedActive);
-
+  private async clearTransaction(snapshotKey?: string): Promise<void> {
+    if (snapshotKey) {
+      try {
+        await this.indexed.delete(snapshotKey);
+      } catch {
+        // A stale rollback snapshot is inert once both active layers verify.
+      }
+    }
     this.local.removeItem(STORAGE_KEYS.restorePending);
     this.local.removeItem(STORAGE_KEYS.restoreSession);
+  }
+
+  private async rollbackExact(
+    snapshot: RestoreSnapshot,
+    snapshotKey?: string
+  ): Promise<void> {
+    if (snapshot.primary === null) this.local.removeItem(STORAGE_KEYS.primary);
+    else this.local.setItem(STORAGE_KEYS.primary, snapshot.primary);
+
+    if (snapshot.indexedActive === null) {
+      await this.indexed.delete(INDEXED_DB_KEYS.active);
+    } else {
+      await this.indexed.put(INDEXED_DB_KEYS.active, snapshot.indexedActive);
+    }
+
+    await this.clearTransaction(snapshotKey);
   }
 
   async execute(
@@ -75,6 +101,7 @@ export class VerifiedRestoreCoordinator {
         : migrateState(cloneState(prepared.state));
     const id = transactionId();
     const snapshot = await this.exactSnapshot(id);
+    const snapshotKey = preImportKey(id);
     const expectedSignature = await canonicalRestoreSignature(target);
     const marker: RestoreMarker = {
       transactionId: id,
@@ -83,10 +110,15 @@ export class VerifiedRestoreCoordinator {
       startedAt: new Date().toISOString()
     };
 
-    this.local.setItem(STORAGE_KEYS.restoreSession, JSON.stringify(snapshot));
-    this.local.setItem(STORAGE_KEYS.restorePending, JSON.stringify(marker));
-
     try {
+      await this.indexed.put(snapshotKey, snapshot);
+      const session: RestoreSessionReference = {
+        transactionId: id,
+        snapshotKey
+      };
+      this.local.setItem(STORAGE_KEYS.restoreSession, JSON.stringify(session));
+      this.local.setItem(STORAGE_KEYS.restorePending, JSON.stringify(marker));
+
       this.local.setItem(STORAGE_KEYS.primary, storageJson(target));
       const primaryRead = this.local.getItem(STORAGE_KEYS.primary);
       if (!primaryRead) throw new Error("Primary restore write could not be read back.");
@@ -109,7 +141,7 @@ export class VerifiedRestoreCoordinator {
         state: target
       };
     } catch (error) {
-      await this.rollbackExact(snapshot);
+      await this.rollbackExact(snapshot, snapshotKey);
       throw error;
     }
   }
@@ -121,7 +153,13 @@ export class VerifiedRestoreCoordinator {
     if (!sessionText) throw new Error("Restore rollback session is missing.");
 
     const marker = JSON.parse(markerText) as RestoreMarker;
-    const session = JSON.parse(sessionText) as RestoreSession;
+    const session = JSON.parse(sessionText) as
+      | RestoreSessionReference
+      | RestoreSnapshot;
+    const snapshotKey =
+      "snapshotKey" in session && typeof session.snapshotKey === "string"
+        ? session.snapshotKey
+        : undefined;
     try {
       if (marker.transactionId !== session.transactionId) {
         throw new Error("Restore transaction identity mismatch.");
@@ -139,11 +177,15 @@ export class VerifiedRestoreCoordinator {
         throw new Error("Restored state failed reload verification.");
       }
       this.setActiveState(cloneState(primaryState));
-      this.local.removeItem(STORAGE_KEYS.restorePending);
-      this.local.removeItem(STORAGE_KEYS.restoreSession);
+      await this.clearTransaction(snapshotKey);
       return primaryState;
     } catch (error) {
-      await this.rollbackExact(session);
+      const snapshot = snapshotKey
+        ? await this.indexed.get<RestoreSnapshot>(snapshotKey)
+        : (session as RestoreSnapshot);
+      if (snapshot) {
+        await this.rollbackExact(snapshot, snapshotKey);
+      }
       throw error;
     }
   }

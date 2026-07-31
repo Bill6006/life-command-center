@@ -18,6 +18,11 @@ function parseState(value: string | null): AppState | null {
   }
 }
 
+export interface StorageSaveResult {
+  state: AppState;
+  recoveryCopiesComplete: boolean;
+}
+
 export class StorageCoordinator {
   constructor(
     readonly local: KeyValueStore,
@@ -77,16 +82,37 @@ export class StorageCoordinator {
     };
   }
 
-  async save(input: AppState, now = new Date()): Promise<AppState> {
+  async save(input: AppState, now = new Date()): Promise<StorageSaveResult> {
     const state = stateForStorage(migrateState(input));
     state._savedAt = now.toISOString();
     const json = storageJson(state);
+
     this.local.setItem(STORAGE_KEYS.primary, json);
+    if (this.local.getItem(STORAGE_KEYS.primary) !== json) {
+      throw new Error("Primary save could not be read back exactly.");
+    }
+
     await this.indexed.put(INDEXED_DB_KEYS.active, state);
-    this.local.setItem(STORAGE_KEYS.lastGood, json);
-    this.local.setItem(STORAGE_KEYS.sessionBackup, json);
-    await this.indexed.put(INDEXED_DB_KEYS.lastGood, state);
-    return state;
+    const indexedRead = await this.indexed.get<AppState>(INDEXED_DB_KEYS.active);
+    if (!indexedRead || storageJson(indexedRead) !== json) {
+      throw new Error("IndexedDB active save could not be read back exactly.");
+    }
+
+    let recoveryCopiesComplete = true;
+    for (const key of [STORAGE_KEYS.lastGood, STORAGE_KEYS.sessionBackup]) {
+      try {
+        this.local.setItem(key, json);
+      } catch {
+        recoveryCopiesComplete = false;
+      }
+    }
+    try {
+      await this.indexed.put(INDEXED_DB_KEYS.lastGood, state);
+    } catch {
+      recoveryCopiesComplete = false;
+    }
+
+    return { state, recoveryCopiesComplete };
   }
 
   async saveLatestBackup(input: AppState): Promise<void> {

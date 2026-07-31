@@ -50,9 +50,31 @@ describe("storage adapters and recovery coordinator", () => {
     const state = createBlankAppState();
     state.seed = { profile: "synthetic legacy seed" };
 
-    await coordinator.save(state, new Date("2044-02-02T12:00:00.000Z"));
+    const result = await coordinator.save(
+      state,
+      new Date("2044-02-02T12:00:00.000Z")
+    );
+    expect(result.recoveryCopiesComplete).toBe(true);
     expect(local.getItem(STORAGE_KEYS.primary)).not.toContain('"seed"');
     expect((await indexed.get<Record<string, unknown>>(INDEXED_DB_KEYS.active))?.seed).toBeUndefined();
+  });
+
+  it("does not report a save when the IndexedDB active copy cannot be read back", async () => {
+    class MissingActiveReadStore extends MemoryIndexedStateStore {
+      override async get<T>(key: string): Promise<T | null> {
+        if (key === INDEXED_DB_KEYS.active) return null;
+        return super.get<T>(key);
+      }
+    }
+
+    const coordinator = new StorageCoordinator(
+      new MemoryKeyValueStore(),
+      new MissingActiveReadStore()
+    );
+
+    await expect(coordinator.save(createBlankAppState())).rejects.toThrow(
+      "IndexedDB active save could not be read back exactly"
+    );
   });
 
   it("prunes day caches to seven dates", () => {

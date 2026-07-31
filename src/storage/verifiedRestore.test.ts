@@ -6,11 +6,11 @@ import { INDEXED_DB_KEYS, STORAGE_KEYS } from "./keys";
 import { VerifiedRestoreCoordinator } from "./verifiedRestore";
 
 class FailNextPutStore extends MemoryIndexedStateStore {
-  failNextPut = false;
+  failNextActivePut = false;
 
   override async put<T>(key: string, value: T): Promise<void> {
-    if (this.failNextPut) {
-      this.failNextPut = false;
+    if (this.failNextActivePut && key === INDEXED_DB_KEYS.active) {
+      this.failNextActivePut = false;
       throw new Error("Synthetic IndexedDB failure.");
     }
     await super.put(key, value);
@@ -89,7 +89,7 @@ describe("verified restore transaction", () => {
       await fullBackupJson(stateWithDay("2043-04-02", "replacement"))
     );
     const coordinator = new VerifiedRestoreCoordinator(local, indexed);
-    indexed.failNextPut = true;
+    indexed.failNextActivePut = true;
 
     await expect(coordinator.execute(prepared, "replace", current)).rejects.toThrow(
       "Synthetic IndexedDB failure"

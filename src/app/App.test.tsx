@@ -13,11 +13,13 @@ describe("application shell", () => {
     window.location.hash = "#/today";
   });
 
-  it("shows the privacy-safe first-run message", () => {
+  it("shows the privacy-safe first-run message after blank storage loads", async () => {
     render(<App />);
 
     expect(screen.getByRole("link", { name: "Life Command Center home" })).toBeInTheDocument();
-    expect(screen.getByText("This rebuild starts empty on purpose.")).toBeInTheDocument();
+    expect(
+      await screen.findByText("This rebuild starts empty on purpose.")
+    ).toBeInTheDocument();
     const skipLink = screen.getByRole("link", { name: "Skip to main content" });
     expect(skipLink).toHaveAttribute(
       "href",
@@ -31,6 +33,22 @@ describe("application shell", () => {
         "button"
       )
     ).toHaveLength(12);
+  });
+
+  it("hides the fresh-workspace card after saved history loads", async () => {
+    const root = createBlankAppState();
+    root.days["2046-03-23"] = {
+      _updatedAt: "2046-03-23T12:00:00.000Z",
+      note: "Synthetic restored history"
+    };
+    window.localStorage.setItem(STORAGE_KEYS.primary, JSON.stringify(root));
+
+    render(<App />);
+
+    expect(await screen.findByText("Saved locally")).toBeInTheDocument();
+    expect(
+      screen.queryByText("This rebuild starts empty on purpose.")
+    ).not.toBeInTheDocument();
   });
 
   it("routes between registered tabs using the hash", async () => {

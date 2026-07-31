@@ -7,6 +7,7 @@ import { GuideControls, GuideOverlay } from "../guides/GuideExperience";
 import { useGuideRuntime } from "../guides/useGuideRuntime";
 import { navigateToTab, subscribeToHash, tabFromHash } from "../navigation/hashRoute";
 import { TAB_REGISTRY, type TabId } from "../navigation/tabRegistry";
+import { isUnknownRecord, type AppState } from "../state/model";
 
 function currentDateLabel() {
   return new Intl.DateTimeFormat("en-US", {
@@ -62,6 +63,56 @@ function FirstRunNotice() {
       </button>
     </aside>
   );
+}
+
+function hasWorkspaceContent(state: AppState) {
+  if (Object.keys(state.days).length > 0 || state.logs.length > 0) return true;
+  if (Object.keys(state._domainUpdatedAt).length > 0) return true;
+  if (
+    Object.values(state.domains).some(
+      (domain) => isUnknownRecord(domain) && Object.keys(domain).length > 0
+    )
+  ) {
+    return true;
+  }
+  const guides = state.settings.guides;
+  if (isUnknownRecord(guides)) {
+    if (guides.active) return true;
+    if (isUnknownRecord(guides.quickMode) && guides.quickMode.active === true) {
+      return true;
+    }
+    for (const key of ["completions", "usedKeys", "rangeLoggedAt"]) {
+      if (
+        isUnknownRecord(guides[key]) &&
+        Object.keys(guides[key]).length > 0
+      ) {
+        return true;
+      }
+    }
+    const guideStructureKeys = new Set([
+      "version",
+      "active",
+      "completions",
+      "quickMode",
+      "usedKeys",
+      "rangeLoggedAt"
+    ]);
+    if (Object.keys(guides).some((key) => !guideStructureKeys.has(key))) {
+      return true;
+    }
+  }
+
+  const structuralKeys = new Set([
+    "schemaVersion",
+    "settings",
+    "days",
+    "domains",
+    "logs",
+    "_domainUpdatedAt",
+    "_savedAt",
+    "_inputUpdatedAt"
+  ]);
+  return Object.keys(state).some((key) => !structuralKeys.has(key));
 }
 
 function FoundationDetails() {
@@ -155,7 +206,10 @@ export function App() {
       <TabNavigation activeTab={activeTab} />
 
       <main className="main-content" id="main-content" tabIndex={-1}>
-        <FirstRunNotice />
+        {guides.saveStatus !== "loading" &&
+        !hasWorkspaceContent(guides.rootState) ? (
+          <FirstRunNotice />
+        ) : null}
         <GuideControls runtime={guides} />
         {activeTab === "today" ? <TodayScreen runtime={guides} /> : null}
         {isDomainTab(activeTab) ? <DomainScreen activeTab={activeTab} runtime={guides} /> : null}

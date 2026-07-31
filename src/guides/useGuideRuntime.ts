@@ -209,11 +209,16 @@ export function useGuideRuntime() {
       .then(async () => {
         const coordinator = coordinatorRef.current;
         if (!coordinator) return;
-        const saved = await coordinator.save(nextRoot, timestamp);
+        const result = await coordinator.save(nextRoot, timestamp);
         if (sequence === saveSequenceRef.current) {
-          rootRef.current = saved;
-          setRootState(saved);
+          rootRef.current = result.state;
+          setRootState(result.state);
           setSaveStatus("saved");
+          if (!result.recoveryCopiesComplete) {
+            setNotice(
+              "Active state verified in localStorage and IndexedDB. Optional recovery copies could not all be refreshed; keep the downloaded Full Backup."
+            );
+          }
         }
       })
       .catch(() => {
