@@ -50,37 +50,63 @@ exact rollback. The runbook separates signed Full Backup evidence from unsigned
 legacy compatibility and prohibits publishing private counts, signatures, or
 files.
 
+## Owner migration compatibility repair
+
+The first owner-only migration attempt stopped at strict schema validation
+because legacy day records store `minimumWins` as one object. Inspection of the
+protected source confirmed that the object contains day/library metadata,
+`items[]`, and a parallel `status{}` map. A manual completion is distinguished
+by `status: "done"` with `manual: true`; automatic equivalent evidence is
+stored as `covered` or as a non-manual legacy `done`.
+
+Commit
+[`f1f3506`](https://github.com/Bill6006/life-command-center/commit/f1f3506af5df908284ff2904a91d10bbcb1857bf)
+adds one migration-boundary compatibility rule before strict validation. It
+preserves the complete legacy object as one entry in the current array instead
+of flattening the item list and severing its keyed status evidence. Missing
+`minimumWins` remains missing, and a current array remains unchanged. No
+completion or evidence is inferred.
+
+Three synthetic regression cases cover the discovered object shape, an absent
+field, and the current array shape. The focused migration/restore/merge/cutover
+suites passed 21 tests. The complete suite passed 173 tests across 34 files,
+the production PWA build, all ten phase verifiers, and both privacy gates. The
+owner's private JSON was not requested, opened, uploaded, or inspected. The
+previous full Actions-artifact audit was not repeated.
+
 ## Deployment evidence
 
-- [Repository CI](https://github.com/Bill6006/life-command-center/actions/runs/30509786095):
-  passed 170 tests across 34 files, the production PWA build, all 10 phase
-  verifiers, and both privacy gates on `b993880`.
-- [Privacy Scan](https://github.com/Bill6006/life-command-center/actions/runs/30509786128):
+- [Repository CI](https://github.com/Bill6006/life-command-center/actions/runs/30600155778):
+  passed 173 tests across 34 files, the production PWA build, all 10 phase
+  verifiers, and both privacy gates on `f1f3506`.
+- [Privacy Scan](https://github.com/Bill6006/life-command-center/actions/runs/30600155807):
   passed the exact production build plus current-tree and reachable-history
-  checks on `b993880`.
-- [Pages deployment](https://github.com/Bill6006/life-command-center/actions/runs/30509786104):
+  checks on `f1f3506`.
+- [Pages deployment](https://github.com/Bill6006/life-command-center/actions/runs/30600155776):
   reported success with Pages build version
-  `b993880a08f948c8e63198866b8ba5347657c127` and environment URL
+  `f1f3506af5df908284ff2904a91d10bbcb1857bf` and environment URL
   https://bill6006.github.io/life-command-center/.
 
 The permanent URL was opened from an isolated unauthenticated browser at a
-412 × 915 Android viewport. Today and Data loaded from the repository subpath
-without console errors or horizontal page/card/sheet/dialog overflow. The base
-page, manifest, service worker, Workbox runtime, both icons, hashed application
-script, stylesheet, and Workbox window helper all returned 200. The manifest
-retains `/life-command-center/#/today` as its start URL and
-`/life-command-center/` as its scope.
+412 × 915 Android viewport. Today loaded from the repository subpath without
+console errors or horizontal page/card/dialog overflow. The remote application
+script SHA-256 matched the locally gated production bundle. The base page,
+manifest, service worker, Workbox runtime, both manifest-declared icons, hashed
+application script, and stylesheet all returned 200. The manifest retains
+`/life-command-center/#/today` as its start URL and `/life-command-center/` as
+its scope.
 
 The annotated
 [`phase-10-automated-baseline`](https://github.com/Bill6006/life-command-center/tree/phase-10-automated-baseline)
-tag is the rollback checkpoint for the automated Phase 10 closure. It preserves
-the final evidence state with `b993880` as the implementation ancestor.
+tag remains the protected rollback checkpoint for the original automated Phase
+10 closure. It was not moved by this compatibility repair; `f1f3506` is the
+current deployed release candidate.
 
 ## External confirmation gate
 
 The following remain deliberately incomplete:
 
-- importing the owner's real backup locally;
+- retrying and completing the owner's real backup import locally;
 - matching its private day count and canonical signature;
 - completing backup/download/restore on a physical Android device;
 - confirming ordinary real-world use; and
